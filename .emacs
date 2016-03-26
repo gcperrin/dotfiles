@@ -16,7 +16,7 @@
  '(80-column-rule t)
  '(package-selected-packages
    (quote
-    (jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme)))
+	(web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -30,10 +30,41 @@
           ;; Default indentation is usually 2 spaces, changing to 4.
     (set (make-local-variable 'sgml-basic-offset) 2)))
 
+;; JS indent
+(setq js-indent-level 2)
+
+;; JSX HTML highlighting
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+
+;; adjust indents for web-mode to 2 spaces
+(defun my-web-mode-hook ()
+  "Hooks for Web mode. Adjust indents"
+    ;;; http://web-mode.org/
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79")
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
+  (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69"))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+;; More JSX shit
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+	  (let ((web-mode-enable-part-face nil))
+		ad-do-it)
+	ad-do-it))
+
 ;; ColorTheme
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-robin-hood)
+
+;; Disable backup
+(setq backup-inhibited t)
+
+;; Disable auto save
+(setq auto-save-default nil)
 
 ;; Font size
 (set-face-attribute 'default nil :height 105)
@@ -54,8 +85,6 @@
 (setq js2-highlight-level 3)
 
 (add-to-list 'auto-mode-alist '("\\SConscript$" . python-mode))
-
-;;;(add-hook 'html-mode-hook 'ac-html-enable)
 
 ;; C / C++ stuff
 (require 'cc-mode)
