@@ -1,0 +1,53 @@
+pane	ANTE	0	:BASH	1	:*	0	:/home/gcperrin	1	bash	:
+pane	ANTE	0	:BASH	1	:*	1	:/home/gcperrin	0	bash	:
+pane	ANTE	1	:NODE	0	:-	0	:/home/gcperrin	1	emacs	:emacs
+pane	ANTE	2	:bash	0	: 	0	:/home/gcperrin/dev/ante/src	1	bash	:
+pane	ANTE	3	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	ANTE	4	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	BP_MATRIKON	0	:bash	1	:*	0	:/home/gcperrin/dev/bp_matrikon/ingestor/service_bus	1	bash	:
+pane	BP_MATRIKON	0	:bash	1	:*	1	:/home/gcperrin/dev/bp_matrikon/ingestor	0	bash	:
+pane	BP_MATRIKON	1	:emacs	0	:-	0	:/home/gcperrin/dev/bp_matrikon/ingestor	1	emacs	:emacs
+pane	BP_MATRIKON	2	:less	0	: 	0	:/home/tbartlett/dev/bp_matrikon/ingestor_tester	1	less	:less settings.json
+pane	BP_MATRIKON	3	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	MAUTO	0	:emacs	1	:*	0	:/home/gcperrin/dev/mAir/topic-clean/parser	1	emacs	:emacs app.js
+pane	MAUTO	1	:LIVE	0	:-	0	:/home/gcperrin	1	ssh	:ssh gcperrin@mautomation.net
+pane	MAUTO	1	:LIVE	0	:-	1	:/home/gcperrin	0	bash	:
+pane	MAUTO	2	:DEV	0	: 	0	:/home/gcperrin/dev/mAutomation	1	bash	:
+pane	MAUTO	3	:bash	0	: 	0	:/home/gcperrin/dev/mAutomation/topic-v2-clean	1	bash	:
+pane	MAUTO	3	:bash	0	: 	1	:/home/gcperrin/dev/mAutomation/topic-v2-clean	0	bash	:
+pane	MAUTO	4	:emacs	0	: 	0	:/home/gcperrin	1	emacs	:emacs
+pane	MAUTO	5	:emacs	0	: 	0	:/home/gcperrin/dev/mAutomation/topic-v2-clean	1	emacs	:emacs
+pane	MAUTO	6	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	MSITE	0	:BASH	1	:*	0	:/home/gcperrin/dev/mSite/topic-clean/base/components	0	bash	:
+pane	MSITE	0	:BASH	1	:*	1	:/home/gcperrin	1	bash	:
+pane	MSITE	1	:BUILD	0	:-	0	:/home/gcperrin/dev/mSite/topic-clean	0	bash	:
+pane	MSITE	1	:BUILD	0	:-	1	:/home/gcperrin/dev/mSite/topic-clean	1	bash	:
+pane	MSITE	2	:JS	0	: 	0	:/home/gcperrin/dev/mSite/topic-clean	1	emacs	:emacs
+pane	MSITE	3	:JSX	0	: 	0	:/home/gcperrin/dev/mSite	1	emacs	:emacs
+pane	MSITE	4	:CSS	0	: 	0	:/home/gcperrin/dev/mSite/topic-clean	1	emacs	:emacs
+pane	MSITE	5	:HTML	0	: 	0	:/home/gcperrin/dev/mSite/topic-init	1	bash	:
+pane	MSITE	6	:MISC	0	: 	0	:/home/gcperrin/dev/mSite/topic-init	1	bash	:
+window	ANTE	0	1	:*	c528,204x63,0,0{102x63,0,0,23,101x63,103,0,25}
+window	ANTE	1	0	:-	5e85,204x63,0,0,16
+window	ANTE	2	0	: 	5e86,204x63,0,0,17
+window	ANTE	3	0	: 	5e87,204x63,0,0,18
+window	ANTE	4	0	: 	de89,204x63,0,0,49
+window	BP_MATRIKON	0	1	:*	452b,204x63,0,0{102x63,0,0,34,101x63,103,0,38}
+window	BP_MATRIKON	1	0	:-	5e85,204x63,0,0,35
+window	BP_MATRIKON	2	0	: 	5e86,204x63,0,0,36
+window	BP_MATRIKON	3	0	: 	5e87,204x63,0,0,37
+window	MAUTO	0	1	:*	de85,204x63,0,0,45
+window	MAUTO	1	0	:-	c529,204x63,0,0{102x63,0,0,27,101x63,103,0,42}
+window	MAUTO	2	0	: 	de87,204x63,0,0,28
+window	MAUTO	3	0	: 	c52b,204x63,0,0{102x63,0,0,29,101x63,103,0,44}
+window	MAUTO	4	0	: 	de88,204x63,0,0,48
+window	MAUTO	5	0	: 	de86,204x63,0,0,46
+window	MAUTO	6	0	: 	de87,204x63,0,0,47
+window	MSITE	0	1	:*	4527,204x63,0,0{102x63,0,0,40,101x63,103,0,43}
+window	MSITE	1	0	:-	899c,204x63,0,0{102x63,0,0,10,101x63,103,0,3}
+window	MSITE	2	0	: 	bc9f,204x63,0,0,2
+window	MSITE	3	0	: 	bca2,204x63,0,0,5
+window	MSITE	4	0	: 	bca3,204x63,0,0,6
+window	MSITE	5	0	: 	bca4,204x63,0,0,7
+window	MSITE	6	0	: 	5e83,204x63,0,0,14
+state	ANTE	ANTE

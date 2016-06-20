@@ -1,0 +1,53 @@
+pane	ANTE	0	:BASH	1	:*	0	:/home/gcperrin	1	bash	:
+pane	ANTE	0	:BASH	1	:*	1	:/home/gcperrin	0	bash	:
+pane	ANTE	1	:NODE	0	:-	0	:/home/gcperrin	1	emacs	:emacs
+pane	ANTE	2	:bash	0	: 	0	:/home/gcperrin/dev/ante/src	1	bash	:
+pane	ANTE	3	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	ANTE	4	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	BP_MATRIKON	0	:bash	1	:*	0	:/home/gcperrin/dev/bp_matrikon/ingestor/service_bus	1	bash	:
+pane	BP_MATRIKON	0	:bash	1	:*	1	:/home/gcperrin/dev/bp_matrikon/ingestor	0	bash	:
+pane	BP_MATRIKON	1	:emacs	0	:-	0	:/home/gcperrin/dev/bp_matrikon/ingestor	1	emacs	:emacs
+pane	BP_MATRIKON	2	:less	0	: 	0	:/home/tbartlett/dev/bp_matrikon/ingestor_tester	1	less	:less settings.json
+pane	BP_MATRIKON	3	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	MAUTO	0	:emacs	1	:*	0	:/home/gcperrin/dev/mAir/topic-clean/parser	1	emacs	:emacs app.js
+pane	MAUTO	1	:LIVE	0	:-	0	:/home/gcperrin	1	bash	:
+pane	MAUTO	1	:LIVE	0	:-	1	:/home/gcperrin	0	bash	:
+pane	MAUTO	2	:DEV	0	: 	0	:/home/gcperrin/dev/mAutomation	1	bash	:
+pane	MAUTO	3	:bash	0	: 	0	:/home/gcperrin/dev/mAutomation/topic-v2-clean	1	bash	:
+pane	MAUTO	3	:bash	0	: 	1	:/home/gcperrin/dev/mAutomation/topic-v2-clean	0	bash	:
+pane	MAUTO	4	:emacs	0	: 	0	:/home/gcperrin	1	emacs	:emacs
+pane	MAUTO	5	:emacs	0	: 	0	:/home/gcperrin/dev/mAutomation/topic-v2-clean	1	emacs	:emacs
+pane	MAUTO	6	:bash	0	: 	0	:/home/gcperrin	1	bash	:
+pane	MSITE	0	:BASH	1	:*	0	:/home/gcperrin/.tmux/plugins/tmux-net-speed/scripts	0	emacs	:emacs
+pane	MSITE	0	:BASH	1	:*	1	:/home/gcperrin	1	emacs	:emacs .tmux.conf
+pane	MSITE	1	:BUILD	0	: 	0	:/home/gcperrin/dev/mSite/topic-clean	1	bash	:
+pane	MSITE	1	:BUILD	0	: 	1	:/home/gcperrin/dev/mSite/topic-clean	0	bash	:
+pane	MSITE	2	:JS	0	: 	0	:/home/gcperrin/dev/mSite/topic-clean	1	emacs	:emacs
+pane	MSITE	3	:JSX	0	: 	0	:/home/gcperrin/dev/mSite	1	emacs	:emacs
+pane	MSITE	4	:CSS	0	: 	0	:/home/gcperrin/dev/mSite/topic-clean	1	emacs	:emacs
+pane	MSITE	5	:HTML	0	: 	0	:/home/gcperrin/dev/mSite/topic-init	1	bash	:
+pane	MSITE	6	:MISC	0	:-	0	:/proc/2156/net	1	bash	:
+window	ANTE	0	1	:*	b080,204x63,0,0{102x63,0,0,2,101x63,103,0,3}
+window	ANTE	1	0	:-	bca1,204x63,0,0,4
+window	ANTE	2	0	: 	bca2,204x63,0,0,5
+window	ANTE	3	0	: 	bca3,204x63,0,0,6
+window	ANTE	4	0	: 	bca4,204x63,0,0,7
+window	BP_MATRIKON	0	1	:*	b089,204x63,0,0{102x63,0,0,8,101x63,103,0,9}
+window	BP_MATRIKON	1	0	:-	5e7f,204x63,0,0,10
+window	BP_MATRIKON	2	0	: 	5e80,204x63,0,0,11
+window	BP_MATRIKON	3	0	: 	5e81,204x63,0,0,12
+window	MAUTO	0	1	:*	5e82,204x63,0,0,13
+window	MAUTO	1	0	:-	c528,204x63,0,0{102x63,0,0,14,101x63,103,0,15}
+window	MAUTO	2	0	: 	5e85,204x63,0,0,16
+window	MAUTO	3	0	: 	c52b,204x63,0,0{102x63,0,0,17,101x63,103,0,18}
+window	MAUTO	4	0	: 	5e88,204x63,0,0,19
+window	MAUTO	5	0	: 	de7f,204x63,0,0,20
+window	MAUTO	6	0	: 	de80,204x63,0,0,21
+window	MSITE	0	1	:*	4527,204x63,0,0{102x63,0,0,22,101x63,103,0,23}
+window	MSITE	1	0	: 	4529,204x63,0,0{102x63,0,0,24,101x63,103,0,25}
+window	MSITE	2	0	: 	de85,204x63,0,0,26
+window	MSITE	3	0	: 	de86,204x63,0,0,27
+window	MSITE	4	0	: 	de87,204x63,0,0,28
+window	MSITE	5	0	: 	de88,204x63,0,0,29
+window	MSITE	6	0	:-	5e80,204x63,0,0,30
+state	MSITE	MSITE
