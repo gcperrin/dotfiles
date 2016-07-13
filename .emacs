@@ -14,18 +14,30 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(80-column-rule t)
+ '(custom-safe-themes
+	 (quote
+		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
-   (quote
-	(auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet
-				   ac-html-bootstrap ac-html column-enforce-mode ac-js2
-				   js2-mode jedi tabbar-ruler tabbar nav color-theme)))
+	 (quote
+		(smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(neo-dir-link-face ((t (:foreground "brightcyan" :bold t))))
+ '(neo-file-link-face ((t (:foreground "color-63" :bold t))))
+ '(neo-root-dir-face ((t (:foreground "color-171"))))
+ '(neo-header-face ((t (:foreground "color-130"))))
+ '(neo-expand-btn-face ((t (:foreground "brightwhite" :bold t))))
  )
+
+;; Neotree startup
+(add-hook 'after-init-hook #'neotree-toggle)
+
+;; Smartline
+(sml/setup)
 
 ;; Auto-complete pairing of syntax elements
 (electric-pair-mode)
@@ -63,7 +75,7 @@
 (setq js-indent-level 2)
 
 ;; Tab -> Spaces
-(setq-default tab-width 1)
+;; (setq-default tab-width 1)
 
 ;; JSX HTML highlighting
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
@@ -137,30 +149,6 @@
 (setq-default c-basic-offset 4 c-default-style "linux")
 (setq-default tab-width 2 indent-tabs-mode t)
 (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
-
-;;; activate ecb
-(require 'ecb)
-;; (require 'ecb-autoloads)
-
-(setq ecb-layout-name "leftright3")
-(setq ecb-show-sources-in-directories-buffer 'always)
-(setq ecb-compile-window-height 12)
-
-;;; yasnippet
-;;; should be loaded before auto complete so that they can work together
-;;;(require 'yasnippet)
-;;;(yas-global-mode 1)
-
-;;; auto complete mod
-;;; should be loaded after yasnippet so that they can work together
-;;;(require 'auto-complete-config)
-;;;(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-;;;(ac-config-default)
-;;; set the trigger key so that it can work together with yasnippet on tab key,
-;;; if the word exists in yasnippet, pressing tab will cause yasnippet to
-;;; activate, otherwise, auto-complete will
-;;;(ac-set-trigger-key "TAB")
-;;;(ac-set-trigger-key "<tab>")
 
 ;; Bind C-p to the ctl-x-map.
 ;;;(define-key map (kbd "C-a") M-x)
