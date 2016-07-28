@@ -1,1 +1,3 @@
-# dotfiles
+Compile emacs from source.
+Recompile all bycode with...
+M-: (byte-recompile-directory package-user-dir nil 'force)
