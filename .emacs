@@ -19,7 +19,7 @@
 		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
 	 (quote
-		(smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme)))
+		(exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -27,17 +27,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(neo-dir-link-face ((t (:foreground "brightcyan" :bold t))))
- '(neo-file-link-face ((t (:foreground "color-63" :bold t))))
- '(neo-root-dir-face ((t (:foreground "color-171"))))
- '(neo-header-face ((t (:foreground "color-130"))))
  '(neo-expand-btn-face ((t (:foreground "brightwhite" :bold t))))
- )
+ '(neo-file-link-face ((t (:foreground "color-63" :bold t))))
+ '(neo-header-face ((t (:foreground "color-130"))))
+ '(neo-root-dir-face ((t (:foreground "color-171")))))
 
 ;; Neotree startup
+(setq neo-window-width 30)
 (add-hook 'after-init-hook #'neotree-toggle)
 
 ;; Smartline
 (sml/setup)
+
+;; Whitespace-cleanup macro
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Auto-complete pairing of syntax elements
 (electric-pair-mode)
@@ -74,18 +77,16 @@
 ;; JS indent
 (setq js-indent-level 2)
 
-;; Tab -> Spaces
-;; (setq-default tab-width 1)
-
 ;; JSX HTML highlighting
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 
+;; Autocomplete setup
 (ac-config-default)
 ;;(setq ac-auto-start 4)
 (setq ac-auto-show-menu nil)
 ;; Show 0.8 second later
 (setq ac-auto-show-menu 0.8)
-
+(add-to-list 'ac-modes 'web-mode)
 
 ;; adjust indents for web-mode to 2 spaces
 (defun my-web-mode-hook ()
@@ -109,9 +110,39 @@
 ;; More JSX shit
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
   (if (equal web-mode-content-type "jsx")
-	  (let ((web-mode-enable-part-face nil))
-		ad-do-it)
-	ad-do-it))
+			(let ((web-mode-enable-part-face nil))
+				ad-do-it)
+		ad-do-it))
+
+;; ESlint flycheck setup
+;; http://www.flycheck.org/manual/latest/index.html
+(require 'flycheck)
+
+;; turn on flychecking globally
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; disable jshint since we prefer eslint checking
+(setq-default flycheck-disabled-checkers
+							(append flycheck-disabled-checkers
+											'(javascript-jshint)))
+
+;; use eslint with web-mode for jsx files
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
+;; customize flycheck temp file prefix
+(setq-default flycheck-temp-prefix ".flycheck")
+
+;; disable json-jsonlist checking for json files
+(setq-default flycheck-disabled-checkers
+							(append flycheck-disabled-checkers
+											'(json-jsonlist)))
+
+;; https://github.com/purcell/exec-path-from-shell
+;; only need exec-path-from-shell on OSX
+;; this hopefully sets up path and other vars better
+(when (memq window-system '(mac ns))
+	  (exec-path-from-shell-initialize))
+
 
 ;; ColorTheme
 (require 'color-theme)
@@ -134,10 +165,6 @@
 (global-set-key [M-left] 'tabbar-backward-tab)
 (global-set-key [M-right] 'tabbar-forward-tab)
 
-;;(add-hook 'python-mode-hook 'jedi:setup)
-;;(setq jedi:complete-on-dot t)
-
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 (setq js2-highlight-level 3)
