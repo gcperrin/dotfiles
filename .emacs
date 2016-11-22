@@ -19,7 +19,7 @@
 		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
 	 (quote
-		(exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+		(relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -30,7 +30,39 @@
  '(neo-expand-btn-face ((t (:foreground "brightwhite" :bold t))))
  '(neo-file-link-face ((t (:foreground "color-63" :bold t))))
  '(neo-header-face ((t (:foreground "color-130"))))
- '(neo-root-dir-face ((t (:foreground "color-171")))))
+ '(neo-root-dir-face ((t (:foreground "color-171"))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "dark orange"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "deep pink"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "chartreuse"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1")))))
+
+;; Remove extras
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+;; Remap M-x
+(global-set-key (kbd "\C-@") 'execute-extended-command)
+
+;; Remp home-row keys
+;; ...backward
+(global-set-key (kbd "\C-d") 'backward-word)
+(global-set-key (kbd "\C-f") 'backward-char)
+
+;; ...forward
+;; note: C-j is globally mapped so it must be taken into a minor
+;; mode for use here
+(global-set-key (kbd "\C-j") 'forward-char)
+(global-set-key (kbd "\C-k") 'forward-word)
+(eval-after-load "prog-mode"
+	    '(global-set-key (kbd "C-j") 'forward-char))
+
+;; ...pageup
+(global-set-key (kbd "\C-b") 'scroll-down)
 
 ;; Neotree startup
 (setq neo-window-width 30)
@@ -44,6 +76,15 @@
 
 ;; Auto-complete pairing of syntax elements
 (electric-pair-mode)
+
+;; Rainbow delimited brackets and such
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; Relative line numbers
+(global-linum-mode)
+
+;; Line number format
+(setq linum-format "%4d \u2502 ")
 
 ;; New line jumps cause shit
 (defun smarter-move-beginning-of-line (arg)
@@ -68,6 +109,14 @@
 
 ;; Copy whole line
 (global-set-key (kbd "\C-c\C-d") "\C-a\C- \C-n\M-w\C-y")
+
+;; Kill word backward
+(global-set-key "\C-w" 'backward-kill-word)
+
+;; Matching delimiter mode
+(show-paren-mode 1)
+
+(setq show-paren-delay 0)
 
 (add-hook 'html-mode-hook
   (lambda ()
@@ -173,9 +222,13 @@
 
 ;; C / C++ stuff
 (require 'cc-mode)
-(setq-default c-basic-offset 4 c-default-style "linux")
+(setq-default c-basic-offset 2 c-default-style "linux")
 (setq-default tab-width 2 indent-tabs-mode t)
 (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+
+(c-set-offset 'access-label 0)
+(c-set-offset 'topmost-intro 2)
+
 
 ;; Bind C-p to the ctl-x-map.
 ;;;(define-key map (kbd "C-a") M-x)
