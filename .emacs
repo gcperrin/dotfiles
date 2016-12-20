@@ -64,9 +64,12 @@
 ;; ...pageup
 (global-set-key (kbd "\C-b") 'scroll-down)
 
+;; Delete
+(global-set-key (kbd "C-u") 'delete-backward-char)
+
 ;; Neotree startup
 (setq neo-window-width 30)
-(add-hook 'after-init-hook #'neotree-toggle)
+;; (add-hook 'after-init-hook #'neotree-toggle)
 
 ;; Smartline
 (sml/setup)
@@ -76,6 +79,9 @@
 
 ;; Auto-complete pairing of syntax elements
 (electric-pair-mode)
+
+;; Auto-complete pair config
+(setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
 ;; Rainbow delimited brackets and such
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
@@ -124,9 +130,13 @@
     (set (make-local-variable 'sgml-basic-offset) 2)))
 
 ;; JS indent
+(setq web-mode-markup-indent-offset 2
+			web-mode-css-indent-offset 2
+			web-mode-code-indent-offset 2)
 (setq js-indent-level 2)
 
 ;; JSX HTML highlighting
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) ;; Override?
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 
 ;; Autocomplete setup
@@ -232,3 +242,5 @@
 
 ;; Bind C-p to the ctl-x-map.
 ;;;(define-key map (kbd "C-a") M-x)
+
+(setq-default indent-tabs-mode nil)
