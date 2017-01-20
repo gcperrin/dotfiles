@@ -15,11 +15,11 @@
  ;; If there is more than one, they won't work right.
  '(80-column-rule t)
  '(custom-safe-themes
-	 (quote
-		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+   (quote
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
-	 (quote
-		(relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+   (quote
+    (all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -67,9 +67,12 @@
 ;; Delete
 (global-set-key (kbd "C-u") 'delete-backward-char)
 
-;; Neotree startup
+;; Neotree w/ icons startup
+(require 'all-the-icons)
+(require 'neotree)
+ (global-set-key [f8] 'neotree-toggle)
 (setq neo-window-width 30)
-;; (add-hook 'after-init-hook #'neotree-toggle)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 ;; Smartline
 (sml/setup)
@@ -129,27 +132,49 @@
 		;; Default indentation is usually 2 spaces, changing to 4.
     (set (make-local-variable 'sgml-basic-offset) 2)))
 
-;; JS indent
-(setq web-mode-markup-indent-offset 2
-			web-mode-css-indent-offset 2
-			web-mode-code-indent-offset 2)
-(setq js-indent-level 2)
-
-;; JSX HTML highlighting
+;; Web-mode
+(require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) ;; Override?
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setq-default web-mode-enable-auto-pairing t
+              web-mode-enable-auto-opening t
+              web-mode-enable-auto-indentation t
+              web-mode-enable-block-face t
+              web-mode-enable-part-face t
+              web-mode-enable-comment-keywords t
+              web-mode-enable-css-colorization t
+              ;; web-mode-enable-current-element-highlight t
+              web-mode-enable-heredoc-fontification t
+              web-mode-enable-engine-detection t
+              web-mode-markup-indent-offset 2
+              web-mode-css-indent-offset 2
+              web-mode-code-indent-offset 2)
+              ;; web-mode-style-padding 2)
+              ;;; web-mode-script-padding 2
+              ;; web-mode-block-padding 0
+              ;;web-mode-comment-style 2)
+
+(set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
+(set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
+(set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t)
 
 ;; Autocomplete setup
+(require 'auto-complete)
+(require 'auto-complete-config)
 (ac-config-default)
-;;(setq ac-auto-start 4)
+
+;; (setq ac-auto-start 4)
 (setq ac-auto-show-menu nil)
+
 ;; Show 0.8 second later
 (setq ac-auto-show-menu 0.8)
 (add-to-list 'ac-modes 'web-mode)
 
 ;; adjust indents for web-mode to 2 spaces
 (defun my-web-mode-hook ()
-  "Hooks for Web mode. Adjust indents"
+  "Hooks for Web mode. Adjust indents."
     ;;; http://web-mode.org/
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -157,7 +182,7 @@
   (setq web-mode-enable-auto-closing t)
   (setq web-mode-enable-auto-pairing t)
   (setq web-mode-ac-sources-alist
-	  '(("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+	  '(("jsx" . (ac-source-words-in-buffer ac-source-abbrev))))
   (set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
   (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t))
@@ -202,7 +227,6 @@
 (when (memq window-system '(mac ns))
 	  (exec-path-from-shell-initialize))
 
-
 ;; ColorTheme
 (require 'color-theme)
 (color-theme-initialize)
@@ -220,6 +244,9 @@
 ;; Tabs
 (require 'tabbar)
 (tabbar-mode t)
+
+(global-set-key [M-left] 'tabbar-backward-tab)
+(global-set-key [M-right] 'tabbar-forward-tab)
 
 (global-set-key [M-left] 'tabbar-backward-tab)
 (global-set-key [M-right] 'tabbar-forward-tab)
