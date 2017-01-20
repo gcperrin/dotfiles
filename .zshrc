@@ -2,15 +2,15 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/gcperrin/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# Load custom theme
+source $ZSH/oh-my-zsh.sh
+source ~/.dotfiles/gcp.zsh-theme
 
 export TERM="xterm-256color"
 export EDITOR="emacs"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -56,8 +56,6 @@ export EDITOR="emacs"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -89,3 +87,13 @@ source $ZSH/oh-my-zsh.sh
 alias ls="ls -la --color=auto"
 alias gs="git status"
 alias rzsh="source ~/.zshrc"
+
+# Color stuff
+ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
+
+# Show all 256 colors with color number
+function spectrum_ls() {
+    for code in {000..255}; do
+        print -P -- "$code: %{$FG[$code]%}$ZSH_SPECTRUM_TEXT%{$reset_color%}"
+    done
+}
