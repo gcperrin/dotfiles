@@ -15,11 +15,11 @@
  ;; If there is more than one, they won't work right.
  '(80-column-rule t)
  '(custom-safe-themes
-   (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+	 (quote
+		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
-   (quote
-    (all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+	 (quote
+		(company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -92,6 +92,8 @@
 ;; Relative line numbers
 (global-linum-mode)
 
+;; Set Linum color
+(set-face-foreground 'linum "light grey")
 ;; Line number format
 (setq linum-format "%4d \u2502 ")
 
@@ -127,10 +129,20 @@
 
 (setq show-paren-delay 0)
 
-(add-hook 'html-mode-hook
-  (lambda ()
+;;(add-hook 'html-mode-hook
+;;  (lambda ()
 		;; Default indentation is usually 2 spaces, changing to 4.
-    (set (make-local-variable 'sgml-basic-offset) 2)))
+;;    (set (make-local-variable 'sgml-basic-offset) 2)))
+
+;; Company Completion mode
+(require 'company)
+(require 'company-dict)
+(require 'company-tern)
+(setq company-tooltip-limit 20)                      ; bigger popup window
+(setq company-tooltip-align-annotations 't)          ; align annotations to the right tooltip border
+(setq company-idle-delay .3)                         ; decrease delay before autocompletion popup shows
+(setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; Web-mode
 (require 'web-mode)
@@ -150,46 +162,52 @@
               web-mode-enable-engine-detection t
               web-mode-markup-indent-offset 2
               web-mode-css-indent-offset 2
-              web-mode-code-indent-offset 2)
-              ;; web-mode-style-padding 2)
-              ;;; web-mode-script-padding 2
-              ;; web-mode-block-padding 0
-              ;;web-mode-comment-style 2)
+              web-mode-code-indent-offset 2
+							web-mode-style-padding 2
+							web-mode-script-padding 2
+              web-mode-block-padding 0
+              web-mode-comment-style 2)
 
 (set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
 (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
 (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t)
 
+;; Tern setup
+(add-hook 'web-mode-hook (lambda () (tern-mode t)))
+(eval-after-load 'tern
+	'(progn
+		 (require 'tern-auto-complete)
+		 (tern-ac-setup)))
+
 ;; Autocomplete setup
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
+;; (require 'auto-complete)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
 
 ;; (setq ac-auto-start 4)
-(setq ac-auto-show-menu nil)
+;; (setq ac-auto-show-menu nil)
 
 ;; Show 0.8 second later
-(setq ac-auto-show-menu 0.8)
-(add-to-list 'ac-modes 'web-mode)
+;; (setq ac-auto-show-menu 0.8)
+;; (add-to-list 'ac-modes 'web-mode)
 
 ;; adjust indents for web-mode to 2 spaces
 (defun my-web-mode-hook ()
   "Hooks for Web mode. Adjust indents."
     ;;; http://web-mode.org/
+  (setq web-mode-enable-auto-indentation t)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-enable-auto-closing t)
   (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-ac-sources-alist
-	  '(("jsx" . (ac-source-words-in-buffer ac-source-abbrev))))
+  ;;(setq web-mode-ac-sources-alist
+	;;			'(("jsx" . (ac-source-words-in-buffer ac-source-abbrev ac-source-tern-completion))
+	;;				("js" . (ac-source-words-in-buffer ac-source-abbrev ac-source-tern-completion))))
   (set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
   (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t))
 (add-hook 'web-mode-hook  'my-web-mode-hook)
-
-(setq web-mode-ac-sources-alist
-	  '(("html" . (ac-source-words-in-buffer ac-source-abbrev))))
 
 ;; More JSX shit
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
@@ -270,4 +288,4 @@
 ;; Bind C-p to the ctl-x-map.
 ;;;(define-key map (kbd "C-a") M-x)
 
-(setq-default indent-tabs-mode nil)
+;;; (setq-default indent-tabs-mode nil)
