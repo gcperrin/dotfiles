@@ -87,6 +87,8 @@ plugins=(git)
 alias ls="ls -la --color=auto"
 alias gs="git status"
 alias rzsh="source ~/.zshrc"
+alias c="clear"
+alias e="emacs"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}

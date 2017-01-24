@@ -15,11 +15,11 @@
  ;; If there is more than one, they won't work right.
  '(80-column-rule t)
  '(custom-safe-themes
-	 (quote
-		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+   (quote
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
-	 (quote
-		(company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+   (quote
+    (company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -138,10 +138,24 @@
 (require 'company)
 (require 'company-dict)
 (require 'company-tern)
-(setq company-tooltip-limit 20)                      ; bigger popup window
-(setq company-tooltip-align-annotations 't)          ; align annotations to the right tooltip border
-(setq company-idle-delay .3)                         ; decrease delay before autocompletion popup shows
+(setq company-tooltip-limit 20) ; bigger popup window
+(setq company-tooltip-align-annotations 't) ; align annotations to the right tooltip border
+(setq company-idle-delay .2) ; decrease delay before autocompletion popup shows
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+(setq company-dabbrev-downcase nil) ; stop downcase returns
+
+;;; Company tab iterations
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+     (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+
+;; Company inline display
+(setq company-frontends
+      '(company-pseudo-tooltip-unless-just-one-frontend
+        company-preview-frontend
+        company-echo-metadata-frontend))
+
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; Web-mode
@@ -178,6 +192,10 @@
 	'(progn
 		 (require 'tern-auto-complete)
 		 (tern-ac-setup)))
+
+;; Yasnippet setup
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; Autocomplete setup
 ;; (require 'auto-complete)
@@ -288,4 +306,4 @@
 ;; Bind C-p to the ctl-x-map.
 ;;;(define-key map (kbd "C-a") M-x)
 
-;;; (setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
