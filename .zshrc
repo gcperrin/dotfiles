@@ -80,15 +80,22 @@ plugins=(git)
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
+os=$(uname)
+if [ "$os" = "Darwin" ];
+then
+    alias ls="ls -la -G"
+		alias e="Emacs --no-window-system"
+else
+    alias ls="ls -la --color=auto"
+		alias e="emacs"
+fi
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ls="ls -la --color=auto"
 alias gs="git status"
 alias rzsh="source ~/.zshrc"
 alias c="clear"
-alias e="emacs"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
