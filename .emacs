@@ -19,7 +19,7 @@
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+    (magit company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -138,9 +138,10 @@
 (require 'company)
 (require 'company-dict)
 (require 'company-tern)
-(setq company-tooltip-limit 20) ; bigger popup window
+(setq company-tooltip-limit 25) ; bigger popup window
 (setq company-tooltip-align-annotations 't) ; align annotations to the right tooltip border
-(setq company-idle-delay .2) ; decrease delay before autocompletion popup shows
+(setq company-idle-delay 0) ; decrease delay before autocompletion popup shows
+(setq company-idle-delat-tooltip 0.5);
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-dabbrev-downcase nil) ; stop downcase returns
 
@@ -152,7 +153,7 @@
 
 ;; Company inline display
 (setq company-frontends
-      '(company-pseudo-tooltip-unless-just-one-frontend
+      '(company-pseudo-tooltip-unless-just-one-frontend-with-delay
         company-preview-frontend
         company-echo-metadata-frontend))
 
@@ -287,9 +288,12 @@
 (global-set-key [M-left] 'tabbar-backward-tab)
 (global-set-key [M-right] 'tabbar-forward-tab)
 
-(add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
-(setq js2-highlight-level 3)
+;; Magit
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;; (add-hook 'js-mode-hook 'js2-minor-mode)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+;; (setq js2-highlight-level 3)
 
 (add-to-list 'auto-mode-alist '("\\SConscript$" . python-mode))
 
