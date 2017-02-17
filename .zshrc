@@ -76,6 +76,12 @@ plugins=(git)
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+# iTerm tab title naming
+export DISABLE_AUTO_TITLE=true
+function title {
+    echo -ne "\033]0;"$*"\007"
+}
+
 # NVM activation
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
