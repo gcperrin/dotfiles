@@ -306,6 +306,10 @@
 (c-set-offset 'access-label 0)
 (c-set-offset 'topmost-intro 2)
 
+;; Python
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
 
 ;; Bind C-p to the ctl-x-map.
 ;;;(define-key map (kbd "C-a") M-x)
