@@ -138,18 +138,20 @@
 (require 'company)
 (require 'company-dict)
 (require 'company-tern)
-(setq company-tooltip-limit 25) ; bigger popup window
+(setq company-tooltip-limit 30) ; bigger popup window
 (setq company-tooltip-align-annotations 't) ; align annotations to the right tooltip border
 (setq company-idle-delay 0) ; decrease delay before autocompletion popup shows
-(setq company-idle-delat-tooltip 0.5);
+(setq company-idle-delay-tooltip 0);
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-dabbrev-downcase nil) ; stop downcase returns
 
 ;;; Company tab iterations
 (eval-after-load 'company
   '(progn
-     (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-     (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+     (define-key company-active-map (kbd "TAB") 'company-complete-common)
+     (define-key company-active-map (kbd "<tab>") 'company-complete-common)
+     (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
+     (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)))
 
 ;; Company inline display
 (setq company-frontends
