@@ -1,8 +1,8 @@
 # Dotfile Development Environment
-# Greg Perrin
-# greg.perrin@mfactorengineering.com
+## Greg Perrin
+## greg.perrin@mfactorengineering.com
 
-## Installation
+### Installation
 Compile emacs from source.
 Recompile all bycode with...
 M-: (byte-recompile-directory package-user-dir nil
