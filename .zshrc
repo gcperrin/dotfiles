@@ -1,15 +1,3 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# Load custom theme
-source $ZSH/oh-my-zsh.sh
-source ~/.dotfiles/gcp.zsh-theme
-
-export TERM="xterm-256color"
-export EDITOR="emacs"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -77,13 +65,13 @@ plugins=(git)
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # iTerm tab title naming
-export DISABLE_AUTO_TITLE=true
+# export DISABLE_AUTO_TITLE=true
 function title {
     echo -ne "\033]0;"$*"\007"
 }
 
 # NVM activation
-export NVM_DIR="$HOME/.nvm"
+# export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # OS-specific aliases
@@ -104,7 +92,7 @@ alias gl="git log"
 alias gls="git log --pretty=oneline"
 
 # General aliases
-alias c="clear"
+alias cl="clear"
 alias rzsh="source ~/.zshrc"
 
 # Color stuff

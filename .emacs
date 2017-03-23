@@ -19,7 +19,7 @@
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (magit company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+    (company-anaconda anaconda-mode magit company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -38,7 +38,9 @@
  '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid"))))
  '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green"))))
- '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1")))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1"))))
+ '(magit-section-highlight ((t (:foreground "color-117P"))))
+ )
 
 ;; Remove extras
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -71,7 +73,7 @@
 (require 'all-the-icons)
 (require 'neotree)
  (global-set-key [f8] 'neotree-toggle)
-(setq neo-window-width 30)
+(setq neo-window-width 25)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 ;; Smartline
@@ -124,6 +126,8 @@
 ;; Kill word backward
 (global-set-key "\C-w" 'backward-kill-word)
 
+(global-set-key (kbd "C-x p") 'kill-whole-line)
+
 ;; Matching delimiter mode
 (show-paren-mode 1)
 
@@ -138,6 +142,7 @@
 (require 'company)
 (require 'company-dict)
 (require 'company-tern)
+(add-to-list 'company-backends 'company-tern)
 (setq company-tooltip-limit 30) ; bigger popup window
 (setq company-tooltip-align-annotations 't) ; align annotations to the right tooltip border
 (setq company-idle-delay 0) ; decrease delay before autocompletion popup shows
@@ -178,6 +183,7 @@
               web-mode-enable-heredoc-fontification t
               web-mode-enable-engine-detection t
               web-mode-markup-indent-offset 2
+              web-mode-attr-indent-offset 2
               web-mode-css-indent-offset 2
               web-mode-code-indent-offset 2
 							web-mode-style-padding 2
@@ -191,10 +197,10 @@
 
 ;; Tern setup
 (add-hook 'web-mode-hook (lambda () (tern-mode t)))
-(eval-after-load 'tern
-	'(progn
-		 (require 'tern-auto-complete)
-		 (tern-ac-setup)))
+;;(eval-after-load 'tern
+;;	'(progn
+;;		 (require 'company-tern)
+;;		 (tern)))
 
 ;; Yasnippet setup
 (require 'yasnippet)
@@ -263,8 +269,10 @@
 ;; https://github.com/purcell/exec-path-from-shell
 ;; only need exec-path-from-shell on OSX
 ;; this hopefully sets up path and other vars better
-(when (memq window-system '(mac ns))
-	  (exec-path-from-shell-initialize))
+
+;;(setq exec-path-from-shell-arguments '("-l"))
+;;(when (memq window-system '(mac ns))
+;;  (exec-path-from-shell-initialize))
 
 ;; ColorTheme
 (require 'color-theme)
@@ -309,8 +317,17 @@
 (c-set-offset 'topmost-intro 2)
 
 ;; Python
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
+;; (setq python-shell-interpreter 'python)
+(add-hook 'python-mode-hook 'anaconda-mode)
+(eval-after-load "company"
+  '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
+
+;; Face recognition
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'read-face-name)
+                  (get-char-property (point) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
 
 ;; Bind C-p to the ctl-x-map.
