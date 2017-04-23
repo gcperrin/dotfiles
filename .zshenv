@@ -10,8 +10,11 @@ source ~/.dotfiles/gcp.zsh-theme
 export TERM="xterm-256color"
 export EDITOR="emacs"
 
-# NVM activation
+# NVM (Node JS) activation
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 export DISABLE_AUTO_TITLE=true
+
+# Golang path
+export GOPATH="$HOME/.go"

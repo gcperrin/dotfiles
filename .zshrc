@@ -94,6 +94,7 @@ alias gls="git log --pretty=oneline"
 # General aliases
 alias cl="clear"
 alias rzsh="source ~/.zshrc"
+alias node="clear && node"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}

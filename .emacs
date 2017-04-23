@@ -19,13 +19,14 @@
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (company-anaconda anaconda-mode magit company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
+    (racer flycheck-rust rust-mode company-irony flymake-less company-anaconda anaconda-mode magit company-shell company-c-headers company-web company-tern company-dict company tern-auto-complete tern all-the-icons relative-line-numbers linum-relative rainbow-delimiters markdown-mode exec-path-from-shell json-mode smart-mode-line neotree sr-speedbar auto-complete less-css-mode web-mode jade-mode gdb-mi crosshairs yasnippet ac-html-bootstrap ac-html column-enforce-mode ac-js2 js2-mode jedi tabbar-ruler tabbar nav color-theme flycheck)))
  '(show-trailing-whitespace t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(magit-section-highlight ((t (:foreground "color-117P"))))
  '(neo-dir-link-face ((t (:foreground "brightcyan" :bold t))))
  '(neo-expand-btn-face ((t (:foreground "brightwhite" :bold t))))
  '(neo-file-link-face ((t (:foreground "color-63" :bold t))))
@@ -38,9 +39,7 @@
  '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid"))))
  '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green"))))
- '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1"))))
- '(magit-section-highlight ((t (:foreground "color-117P"))))
- )
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1")))))
 
 ;; Remove extras
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -195,6 +194,14 @@
 (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
 (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t)
 
+;; CSS/LESS/SASS modes
+(require 'css-mode)
+(require 'less-css-mode)
+(setq-default css-indent-offset 2)
+
+(require 'flymake-less)
+(add-hook 'less-css-mode-hook 'flymake-less-load)
+
 ;; Tern setup
 (add-hook 'web-mode-hook (lambda () (tern-mode t)))
 ;;(eval-after-load 'tern
@@ -205,18 +212,6 @@
 ;; Yasnippet setup
 (require 'yasnippet)
 (yas-global-mode 1)
-
-;; Autocomplete setup
-;; (require 'auto-complete)
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-
-;; (setq ac-auto-start 4)
-;; (setq ac-auto-show-menu nil)
-
-;; Show 0.8 second later
-;; (setq ac-auto-show-menu 0.8)
-;; (add-to-list 'ac-modes 'web-mode)
 
 ;; adjust indents for web-mode to 2 spaces
 (defun my-web-mode-hook ()
@@ -301,6 +296,19 @@
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; Rust
+;;; Autocomplete via racer, company mode, flycheck
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+
+(require 'rust-mode)
+(define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+(setq company-tooltip-align-annotations t)
+
+(setq rust-format-on-save t)
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+
 ;; (add-hook 'js-mode-hook 'js2-minor-mode)
 ;; (add-hook 'js2-mode-hook 'ac-js2-mode)
 ;; (setq js2-highlight-level 3)
@@ -315,6 +323,9 @@
 
 (c-set-offset 'access-label 0)
 (c-set-offset 'topmost-intro 2)
+
+(eval-after-load "company"
+  '(add-to-list 'company-backends 'company-irony))
 
 ;; Python
 ;; (setq python-shell-interpreter 'python)
