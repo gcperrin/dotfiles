@@ -49,7 +49,7 @@ plugins=(git)
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -94,7 +94,6 @@ alias gls="git log --pretty=oneline"
 # General aliases
 alias cl="clear"
 alias rzsh="source ~/.zshrc"
-alias node="clear && node"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
@@ -106,4 +105,9 @@ function spectrum_ls() {
     done
 }
 
+# Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# ZSH autosuggest
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^ ' autosuggest-accept

@@ -287,11 +287,8 @@
 (require 'tabbar)
 (tabbar-mode t)
 
-(global-set-key [M-left] 'tabbar-backward-tab)
-(global-set-key [M-right] 'tabbar-forward-tab)
-
-(global-set-key [M-left] 'tabbar-backward-tab)
-(global-set-key [M-right] 'tabbar-forward-tab)
+(global-set-key (kbd "M-<") 'tabbar-backward-tab)
+(global-set-key (kbd "M->") 'tabbar-forward-tab)
 
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
