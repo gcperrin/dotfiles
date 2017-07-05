@@ -78,7 +78,8 @@ function title {
 os=$(uname)
 if [ "$os" = "Darwin" ];
 then
-    alias ls="ls -la -G"
+    alias ls="ls -l -G"
+    alias lsa="ls -la -G"
 		alias e="Emacs --no-window-system"
 		alias emacs="Emacs --no-window-system"
 else
