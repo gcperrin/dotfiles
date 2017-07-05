@@ -83,7 +83,8 @@ then
 		alias e="Emacs --no-window-system"
 		alias emacs="Emacs --no-window-system"
 else
-    alias ls="ls -la --color=auto"
+    alias ls="ls -l --color=auto"
+    alias lsa="ls -la --color=auto"
 		alias e="emacs"
 fi
 
