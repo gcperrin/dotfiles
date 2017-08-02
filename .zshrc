@@ -1,3 +1,5 @@
+export EDITOR=vim
+
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -78,13 +80,12 @@ function title {
 os=$(uname)
 if [ "$os" = "Darwin" ];
 then
-    alias ls="ls -l -G"
-    alias lsa="ls -la -G"
-		alias e="Emacs --no-window-system"
+    alias lsl="ls -l -G"
+    alias ls="ls -la -G"
 		alias emacs="Emacs --no-window-system"
 else
-    alias ls="ls -l --color=auto"
-    alias lsa="ls -la --color=auto"
+    alias lsl="ls -l --color=auto"
+    alias ls="ls -la --color=auto"
 		alias e="emacs"
 fi
 
