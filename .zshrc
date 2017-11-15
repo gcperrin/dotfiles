@@ -82,7 +82,7 @@ if [ "$os" = "Darwin" ];
 then
     alias lsl="ls -l -G"
     alias ls="ls -la -G"
-		alias emacs="Emacs --no-window-system"
+    alias emacs="Emacs --no-window-system"
 else
     alias lsl="ls -l --color=auto"
     alias ls="ls -la --color=auto"
@@ -97,6 +97,12 @@ alias gls="git log --pretty=oneline"
 # General aliases
 alias cl="clear"
 alias rzsh="source ~/.zshrc"
+
+# Docker aliases
+alias dk="docker"
+alias dki="docker image"
+alias dkc="docker container"
+alias dkv="docker volume"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
