@@ -1,5 +1,3 @@
-export PATH=$HOME/.go/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -18,3 +16,4 @@ export DISABLE_AUTO_TITLE=true
 
 # Golang path
 export GOPATH="$HOME/.go"
+export PATH=$HOME/.go/bin:/usr/local/bin:$PATH

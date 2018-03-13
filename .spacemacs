@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     vimscript
      python
      markdown
      php
@@ -64,7 +65,8 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(doom-themes
-                                      color-theme-modern)
+                                      color-theme-modern
+                                      solidity-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -329,11 +331,20 @@ you should place your code here."
   ;; Golang
   (setq-default
    go-tab-width 4)
+
   ;; JS
   (setq-default
+
    ;; js2-mode
    js2-basic-offset 2
    js-indent-level 2
+
+   ;; Let flycheck handle parse errors
+   js2-show-parse-errors nil
+   js2-strict-missing-semi-warning nil
+   js2-strict-trailing-comma-warning nil
+   js2-include-node-externs t
+
    ;; web-mode
    css-indent-offset 2
    web-mode-markup-indent-offset 2
@@ -344,10 +355,45 @@ you should place your code here."
   (setq-default dotspacemacs-configuration-layers
                 '((auto-completion :variables auto-completion-enable-snippets-in-popup t)))
 
+
   (define-key evil-insert-state-map (kbd "C-h") 'backward-char)
   (define-key evil-insert-state-map (kbd "C-j") 'next-line)
   (define-key evil-insert-state-map (kbd "C-k") 'previous-line)
   (define-key evil-insert-state-map (kbd "C-l") 'forward-char)
+
+  (add-to-list 'auto-mode-alist '("\\.jsx" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.react.js" . web-mode))
+  (defadvice web-mode-highlight-part (around tweak-jsx activate)
+    (if (equal web-mode-content-type "jsx")
+        (let ((web-mode-enable-part-face nil))
+          ad-do-it)
+      ad-do-it))
+
+  ;; JSX tern support
+  (add-hook 'web-mode-hook '(lambda ()
+                              (when (equal web-mode-content-type "jsx")
+                                (tern-mode t)
+                                (company-mode)
+                                (flycheck-mode)
+                                )))
+
+
+  (setq flycheck-checkers '(javascript-eslint))
+
+  ;; (require 'flycheck)
+  ;; ;; turn on flychecking globally
+  ;; (add-hook 'after-init-hook #'global-flycheck-mode)
+  ;; ;; disable jshint since we prefer eslint checking
+  ;; (setq-default flycheck-disabled-checkers
+  ;;               (append flycheck-disabled-checkers
+  ;;                       '(javascript-jshint)))
+
+  ;; ;; use eslint with web-mode for jsx files
+  ;; (flycheck-add-mode 'javascript-eslint 'web-mode)
+  ;; ;; disable json-jsonlist checking for json files
+  ;; (setq-default flycheck-disabled-checkers
+  ;;               (append flycheck-disabled-checkers
+  ;;                       '(json-jsonlist)))
   (set-face-attribute 'flycheck-error nil :foreground "red"))
 
 
@@ -363,7 +409,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit git-commit with-editor phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode insert-shebang fish-mode company-shell dockerfile-mode docker tablist magit-popup docker-tramp unfill mwim toml-mode racer flycheck-rust seq cargo rust-mode go-guru go-eldoc company-go go-mode yaml-mode company-auctex auctex color-theme-modern doom-nova-theme doom-peacock-theme doom-themes all-the-icons memoize font-lock+ mmm-mode markdown-toc markdown-mode gh-md flycheck-pos-tip pos-tip flycheck helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode web-beautify tern livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (solidity-mode wgrep smex ivy-hydra counsel-projectile counsel swiper ivy ghub let-alist vimrc-mode dactyl-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit git-commit with-editor phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode insert-shebang fish-mode company-shell dockerfile-mode docker tablist magit-popup docker-tramp unfill mwim toml-mode racer flycheck-rust seq cargo rust-mode go-guru go-eldoc company-go go-mode yaml-mode company-auctex auctex color-theme-modern doom-nova-theme doom-peacock-theme doom-themes all-the-icons memoize font-lock+ mmm-mode markdown-toc markdown-mode gh-md flycheck-pos-tip pos-tip flycheck helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode web-beautify tern livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(spacemacs-theme-comment-bg nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -371,5 +417,3 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
-
-
