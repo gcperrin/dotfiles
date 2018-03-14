@@ -130,3 +130,8 @@ function spectrum_ls() {
 # ZSH autosuggest
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
+
+# Docker autocomplete
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
+
