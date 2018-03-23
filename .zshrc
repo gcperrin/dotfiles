@@ -74,7 +74,9 @@ function title {
 
 # NVM activation
 # export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+# export NVM_DIR=~"$HOME/.nvm"
+# source $(brew --prefix nvm)/nvm.sh
 
 # OS-specific aliases
 os=$(uname)
@@ -104,6 +106,14 @@ alias dki="docker image"
 alias dkc="docker container"
 alias dkv="docker volume"
 
+# Tmux aliases
+alias tmuxn="tmux new-session -s"
+
+# Tree aliases
+alias l2="tree -L 2"
+alias l3="tree -L 3"
+alias l4="tree -L 4"
+
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
 
@@ -118,5 +128,10 @@ function spectrum_ls() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ZSH autosuggest
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
+
+# Docker autocomplete
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
+

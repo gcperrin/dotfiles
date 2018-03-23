@@ -20,7 +20,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'luochen1990/rainbow'
@@ -29,9 +28,38 @@ Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'othree/es.next.syntax.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mhartington/oceanic-next'
+Plug 'nightsense/office'
+Plug 'altercation/vim-colors-solarized'
 Plug 'othree/html5.vim'
+Plug 'neomake/neomake'
+" Plug 'neoclide/tern-neovim'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
 call plug#end()
+
+ "--------------------------- Autocmds -----------------------------------------
+augroup vimrc_autocmd
+  autocmd!
+  "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
+  autocmd StdinReadPre * let s:std_in=1
+  " no beeps
+  set noerrorbells visualbell t_vb=
+  if has('autocmd')
+    autocmd GUIEnter * set visualbell t_vb=
+  endif
+
+  autocmd InsertEnter * set timeoutlen=100
+  autocmd InsertLeave * set timeoutlen=1000
+
+  autocmd WinEnter * call NERDTreeQuit()
+
+augroup end
+
 
 " ---General bindings---
 let mapleader = "\<Space>"
@@ -53,15 +81,19 @@ set softtabstop=2
 set cursorline
 
 " Theme
-syntax enable
 "let g:oceanic_next_terminal_bold = 1
 "let g:oceanic_next_terminal_italic = 1
-colorscheme afterglow
+
+syntax on
+colorscheme solarized
+
 let g:airline_theme = 'oceanicnext'
 let g:airline#extensions#tabline#enabled = 1
 
 " Easy escape from insert
-inoremap <Leader>j <Esc>
+imap fd <Esc>
+imap fD <Esc>
+imap FD <Esc>
 
 nmap <Leader>l :bnext<CR>
 nmap <Leader>h :bprevious<CR>
@@ -87,22 +119,39 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Better search
 nnoremap <Leader>k :let @/=""<CR>
 
-set number
+" Fix all indents
+nnoremap <leader>t<CR> mzgg=G`z:w<CR>
+
 set relativenumber
 set numberwidth=4
-" hi LineNr ctermbg=236 ctermfg=black
+" hi LineNr ctermbg=NONE ctermfg=grey
+" hi Normal guibg=NONE ctermbg=NONE
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 
 let g:javascript_plugin_flow = 1
 let g:rainbow_active = 1
+
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 
-augroup vimrc_autocmd
-    autocmd!
-    autocmd InsertEnter * set timeoutlen=100
-    autocmd InsertLeave * set timeoutlen=1000
-augroup END
+set completeopt=longest,menuone,preview
+let g:deoplete#sources = {}
+let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
+let g:tern#command = ['tern']
+let g:tern#arguments = ['--persistent']
 
+let g:deoplete#omni#functions = {}
+
+let g:deoplete#omni#functions.javascript = [
+  \ 'tern#Complete',
+  \]
+
+" Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_jshint_maker = {
+      \ 'args': ['--verbose'],
+      \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+      \ }
 
 function! SyntaxAttr()
      let synid = ""
@@ -140,7 +189,6 @@ function! SyntaxAttr()
 	  let gui   = gui . ",bold"
      endif
      if (synIDattr(tid1, "italic"   ))
-	  let gui   = gui . ",italic"
      endif
      if (synIDattr(tid1, "reverse"  ))
 	  let gui   = gui . ",reverse"
@@ -163,4 +211,41 @@ function! SyntaxAttr()
      endif
      echo message
      echohl None
+endfunction
+
+" -------------------- strip trailing whitespace -------------------------
+function! <SID>StripTrailingWhitespaces()
+  "Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+
+" ---------------- Quit NERDTree if it is the last buffer --------------------
+function! NERDTreeQuit()
+  redir => buffersoutput
+  silent buffers
+  redir END
+  "                     1BufNo  2Mods.     3File           4LineNo
+  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
+  let windowfound = 0
+
+  for bline in split(buffersoutput, "\n")
+    let m = matchlist(bline, pattern)
+
+    if (len(m) > 0)
+      if (m[2] =~ '..a..')
+        let windowfound = 1
+      endif
+    endif
+  endfor
+
+  if (!windowfound)
+    quitall
+  endif
 endfunction
