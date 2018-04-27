@@ -95,10 +95,11 @@ fi
 alias gs="git status"
 alias gl="git log"
 alias gls="git log --pretty=oneline"
+alias gd="git diff HEAD "
 
 # General aliases
 alias cl="clear"
-alias rzsh="source ~/.zshrc"
+alias rzsh="source ~/.zshrc && source ~/.zshenv"
 
 # Docker aliases
 alias dk="docker"
@@ -110,9 +111,9 @@ alias dkv="docker volume"
 alias tmuxn="tmux new-session -s"
 
 # Tree aliases
-alias l2="tree -L 2"
-alias l3="tree -L 3"
-alias l4="tree -L 4"
+alias t2="tree -L 2"
+alias t3="tree -L 3"
+alias t4="tree -L 4"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
@@ -134,4 +135,3 @@ bindkey '^ ' autosuggest-accept
 # Docker autocomplete
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
-

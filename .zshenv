@@ -17,3 +17,5 @@ export DISABLE_AUTO_TITLE=true
 # Golang path
 export GOPATH="$HOME/.go"
 export PATH=$HOME/.go/bin:/usr/local/bin:$PATH
+
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=24"

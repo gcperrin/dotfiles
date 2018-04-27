@@ -16,13 +16,32 @@
     ("1c10e946f9a22b28613196e4c02b6508970e3b34660282ec92d9a1c293ee81bb" default)))
  '(package-selected-packages
    (quote
-    (company neotree evil-commentary key-chord color-theme color-theme-modern evil-leader evil))))
+    (go-mode flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme color-theme-modern evil-leader evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "black")))))
+ '(default ((t (:background "black"))))
+ '(company-preview ((t (:foreground "darkgray" :underline t))))
+ '(company-preview-common ((t (:inherit company-preview))))
+ '(company-tooltip ((t (:background "lightgray" :foreground "black"))))
+ '(company-tooltip-common ((((type x)) (:inherit company-tooltip :weight bold)) (t (:inherit company-tooltip))))
+ '(company-tooltip-common-selection ((((type x)) (:inherit company-tooltip-selection :weight bold)) (t (:inherit company-tooltip-selection))))
+ '(company-tooltip-selection ((t (:background "steelblue" :foreground "white"))))
+ '(font-lock-comment-face ((t (:foreground "color-012"))))
+ '(neo-dir-link-face ((t (:foreground "brightcyan" :bold t))))
+ '(neo-expand-btn-face ((t (:foreground "brightwhite" :bold t))))
+ '(neo-file-link-face ((t (:foreground "color-63" :bold t))))
+ '(neo-header-face ((t (:foreground "color-130"))))
+ '(neo-root-dir-face ((t (:foreground "color-171")))))
+
+
+
+;;; ACE WINDOW ;;;
+(require 'ace-window)
+(setq aw-keys '(?j ?k ?l)
+      aw-dispatch-always t)
 
 
 ;;; EVIL MODE ;;;
@@ -31,7 +50,11 @@
 
 (require 'key-chord)
 (key-chord-mode 1)
-(key-chord-define evil-insert-state-map  "fd" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "fd" 'evil-normal-state)
+(key-chord-define evil-visual-state-map "fd" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+
 
 (global-set-key (kbd "C-j")
 		(lambda () (interactive) (next-line 5)))
@@ -47,24 +70,49 @@
   "q" 'kill-buffer
   "j" 'evil-ex
   "k" 'execute-extended-command
-  "n" 'neotree-toggle
-)
+  "t" 'neotree-toggle
+  "\\" 'split-window-horizontally
+  "n" 'next-buffer
+  "p" 'previous-buffer
+  "f" 'ace-window
+  "l" 'goto-line
+  )
 
 (require 'evil-commentary)
 (evil-commentary-mode)
+
+
+;;; ELECTRIC PAIR MODE ;;;
+(electric-pair-mode)
+(setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+
+
+;;; TABS CONFIG ;;;
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq standard-indent 2)
+(with-eval-after-load 'evil-maps
+  (define-key evil-motion-state-map (kbd "TAB") nil))
 
 
 ;;; COLOR THEMES ;;;
 (require 'color-theme-modern)
 (add-to-list 'custom-theme-load-path
              (file-name-as-directory "~/.emacs.d/themes/"))
-(load-theme 'robin-hood t t)
-(enable-theme 'robin-hood)
+(load-theme 'kingsajz t t)
+(enable-theme 'kingsajz)
 
 
 ;;; NEOTREE ;;;
 (require 'neotree)
-(setq neo-window-width 25)
+(setq neo-window-width 35)
+(setq-default neo-show-hidden-files t)
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-quick-look)
+            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
 
 
 ;;; COMPANY MODE ;;;
@@ -72,7 +120,7 @@
 (setq company-tooltip-limit 30) ; bigger popup window
 (setq company-tooltip-align-annotations 't) ; align annotations to the right tooltip border
 (setq company-idle-delay 0) ; decrease delay before autocompletion popup shows
-(setq company-idle-delay-tooltip 0);
+(setq company-idle-delay-tooltip 0); popup display delay
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-dabbrev-downcase nil) ; stop downcase returns
 
@@ -91,6 +139,66 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 
+;;; WEB MODE ;;;
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setq-default web-mode-enable-auto-pairing t
+              web-mode-enable-auto-opening t
+              web-mode-enable-auto-indentation t
+              web-mode-enable-block-face t
+              web-mode-enable-part-face t
+              web-mode-enable-comment-keywords t
+              web-mode-enable-css-colorization t
+              ;; web-mode-enable-current-element-highlight t
+              web-mode-enable-heredoc-fontification t
+              web-mode-enable-engine-detection t
+              web-mode-markup-indent-offset 2
+              web-mode-attr-indent-offset 2
+              web-mode-css-indent-offset 2
+              web-mode-code-indent-offset 2
+	      web-mode-style-padding 2
+	      web-mode-script-padding 2
+              web-mode-block-padding 0
+              web-mode-comment-style 2)
+
+(set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
+(set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
+(set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t)
+(set-face-attribute 'web-mode-function-call-face nil :foreground "color-105" :bold t)
+
+
+;;; FLYCHECK ;;;
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode) ; global flycheck
+
+;; disable jshint since we prefer eslint checking
+(setq-default flycheck-disabled-checkers
+							(append flycheck-disabled-checkers
+											'(javascript-jshint)))
+
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(setq-default flycheck-temp-prefix ".flycheck")
+(setq-default flycheck-disabled-checkers
+							(append flycheck-disabled-checkers
+											'(json-jsonlist)))
+
+(set-face-attribute 'flycheck-error nil :foreground "red")
+
+
+
+;;; JSON MODE ;;;
+(setq-default js2-basic-offset 2
+              js-indent-level 2)
+
+
+;;; SPACELINE ;;;
+(require 'spaceline-config)
+(spaceline-emacs-theme)
+
+
 ;;; MISC ;;;
 (add-hook 'before-save-hook 'delete-trailing-whitespace) ; whitespace cleanup
 
@@ -98,6 +206,21 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
+(setq backup-inhibited t) ; disable backup
+(setq auto-save-default nil) ; disable autosave
+
 ;; Matching delimiter mode
 (show-paren-mode 1)
 (setq show-paren-delay 0)
+
+;; Face recognition
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'read-face-name)
+                  (get-char-property (point) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
+;; Line numbers
+(global-linum-mode)
+(set-face-foreground 'linum "color-242")
+(setq linum-format "%4d \u2502 ")
