@@ -16,7 +16,7 @@
     ("1c10e946f9a22b28613196e4c02b6508970e3b34660282ec92d9a1c293ee81bb" default)))
  '(package-selected-packages
    (quote
-    (go-mode flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme color-theme-modern evil-leader evil))))
+    (js2-mode go-mode flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme color-theme-modern evil-leader evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -145,24 +145,42 @@
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
-(setq-default web-mode-enable-auto-pairing t
-              web-mode-enable-auto-opening t
-              web-mode-enable-auto-indentation t
-              web-mode-enable-block-face t
-              web-mode-enable-part-face t
-              web-mode-enable-comment-keywords t
-              web-mode-enable-css-colorization t
-              ;; web-mode-enable-current-element-highlight t
-              web-mode-enable-heredoc-fontification t
-              web-mode-enable-engine-detection t
-              web-mode-markup-indent-offset 2
-              web-mode-attr-indent-offset 2
-              web-mode-css-indent-offset 2
-              web-mode-code-indent-offset 2
-	      web-mode-style-padding 2
-	      web-mode-script-padding 2
-              web-mode-block-padding 0
-              web-mode-comment-style 2)
+;; for better jsx syntax-highlighting in web-mode
+;; - courtesy of Patrick @halbtuerke
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+    (let ((web-mode-enable-part-face nil))
+      ad-do-it)
+    ad-do-it))
+
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-enable-auto-pairing t
+        web-mode-enable-auto-opening t
+        web-mode-enable-auto-indentation t
+        web-mode-enable-block-face t
+        web-mode-enable-part-face t
+        web-mode-enable-comment-keywords t
+        web-mode-enable-css-colorization t
+        ;; web-mode-enable-current-element-highlight t
+        web-mode-enable-heredoc-fontification t
+        web-mode-enable-engine-detection t
+        web-mode-markup-indent-offset 2
+        web-mode-attr-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-style-padding 2
+        web-mode-script-padding 2
+        web-mode-block-padding 0
+        web-mode-comment-style 2)
+)
+
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+;; (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+(add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+;; (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+;; (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
 
 (set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
 (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
@@ -174,12 +192,26 @@
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode) ; global flycheck
 
+;; JS
+(setq-default
+
+ ;; js2-mode
+ js2-basic-offset 2
+ js-indent-level 2
+
+ ;; Let flycheck handle parse errors
+ js2-show-parse-errors nil
+ js2-strict-missing-semi-warning nil
+ js2-strict-trailing-comma-warning nil
+ js2-include-node-externs t)
+
 ;; disable jshint since we prefer eslint checking
 (setq-default flycheck-disabled-checkers
 							(append flycheck-disabled-checkers
 											'(javascript-jshint)))
 
 (flycheck-add-mode 'javascript-eslint 'web-mode)
+
 (setq-default flycheck-temp-prefix ".flycheck")
 (setq-default flycheck-disabled-checkers
 							(append flycheck-disabled-checkers
@@ -187,11 +219,18 @@
 
 (set-face-attribute 'flycheck-error nil :foreground "red")
 
-
-
-;;; JSON MODE ;;;
-(setq-default js2-basic-offset 2
-              js-indent-level 2)
+;; use local eslint from node_modules before global
+;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
 
 ;;; SPACELINE ;;;
@@ -224,3 +263,6 @@
 (global-linum-mode)
 (set-face-foreground 'linum "color-242")
 (setq linum-format "%4d \u2502 ")
+
+
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
