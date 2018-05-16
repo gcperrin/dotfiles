@@ -16,7 +16,7 @@
     ("1c10e946f9a22b28613196e4c02b6508970e3b34660282ec92d9a1c293ee81bb" default)))
  '(package-selected-packages
    (quote
-    (js2-mode go-mode flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme color-theme-modern evil-leader evil))))
+    (avy company-statistics company-tern tern tide js2-mode go-mode flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme color-theme-modern evil-leader evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -37,11 +37,13 @@
  '(neo-root-dir-face ((t (:foreground "color-171")))))
 
 
-
 ;;; ACE WINDOW ;;;
 (require 'ace-window)
 (setq aw-keys '(?j ?k ?l)
       aw-dispatch-always t)
+
+;;; AVY ;;;
+(require 'avy)
 
 
 ;;; EVIL MODE ;;;
@@ -76,11 +78,13 @@
   "p" 'previous-buffer
   "f" 'ace-window
   "l" 'goto-line
+  "c" 'avy-goto-char
+  "g" 'replace-regexp
+  "r" 'query-replace-regexp
   )
 
 (require 'evil-commentary)
 (evil-commentary-mode)
-
 
 ;;; ELECTRIC PAIR MODE ;;;
 (electric-pair-mode)
@@ -117,12 +121,15 @@
 
 ;;; COMPANY MODE ;;;
 (require 'company)
-(setq company-tooltip-limit 30) ; bigger popup window
+(setq company-tooltip-limit 20) ; bigger popup window
 (setq company-tooltip-align-annotations 't) ; align annotations to the right tooltip border
 (setq company-idle-delay 0) ; decrease delay before autocompletion popup shows
 (setq company-idle-delay-tooltip 0); popup display delay
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-dabbrev-downcase nil) ; stop downcase returns
+(setq company-tooltip-maximum-width 50)
+
+(add-to-list 'company-backends 'company-tern)
 
 (eval-after-load 'company
   '(progn
@@ -136,6 +143,7 @@
         company-preview-frontend
         company-echo-metadata-frontend))
 
+(add-hook 'after-init-hook 'company-statistics-mode)
 (add-hook 'after-init-hook 'global-company-mode)
 
 
@@ -187,6 +195,7 @@
 (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t)
 (set-face-attribute 'web-mode-function-call-face nil :foreground "color-105" :bold t)
 
+(add-hook 'web-mode-hook (lambda () (tern-mode t)))
 
 ;;; FLYCHECK ;;;
 (require 'flycheck)
