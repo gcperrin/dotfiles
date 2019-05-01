@@ -1,4 +1,4 @@
-export EDITOR=vim
+export EDITOR=nvim
 
 # ENABLE_CORRECTION="true"
 
@@ -135,3 +135,4 @@ bindkey '^ ' autosuggest-accept
 # Docker autocomplete
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
+ctags=/usr/local/bin/ctags

@@ -143,7 +143,7 @@
         company-preview-frontend
         company-echo-metadata-frontend))
 
-(add-hook 'after-init-hook 'company-statistics-mode)
+;; (add-hook 'after-init-hook 'company-statistics-mode)
 (add-hook 'after-init-hook 'global-company-mode)
 
 

@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/gcp.zsh-theme
 
-export TERM="xterm-256color"
+export TERM="screen-256color"
 export EDITOR="emacs"
 
 # NVM (Node JS) activation
