@@ -185,7 +185,7 @@ let g:tmux_navigator_no_mappings = 1
 
 " ctags
 set tags=tags
-:set cino+=(0
+set cino+=(0
 
 " NERDTree
 " let NERDTreeIgnore=['\.o$','\.d$', '\~$']
@@ -216,6 +216,29 @@ let g:ale_open_list = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_delay = 0
+
+let g:ale_linter_aliases = { 'h': 'cpp' }
+let g:ale_linters = {
+\   'cpp': ['ccls', 'clangd', 'clangtidy', 'clazy', 'cppcheck', 'cpplint', 'cquery', 'flawfinder'],
+\}
+" let g:ale_linters = { 'cpp': ['clangd'] }
+let g:ale_cpp_parse_compile_commands = 1
+
+" DUMB, but I'm not sure what else to do...
+let g:ale_cpp_clangd_options = '
+      \ -I/Users/gcperrin/dev/audio/wormhole
+      \ -I/Users/gcperrin/dev/audio/wormhole/lib
+      \ -I/Users/gcperrin/dev/audio/wormhole/lib/vst3sdk
+      \ -I/Users/gcperrin/dev/audio/wormhole/lib/vst3sdk/base
+      \ -I/Users/gcperrin/dev/audio/wormhole/lib/vst3sdk/pluginterfaces
+      \ -I/Users/gcperrin/dev/audio/wormhole/lib/vst3sdk/public.sdk
+      \ -Wall
+      \ -Wextra
+      \ -Werror
+      \ -Wno-long-long
+      \ -Wno-variadic-macros
+      \ -fexceptions
+      \ -DNDEBUG'
 
 let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 let g:tagbar_type_javascript = {
@@ -272,6 +295,7 @@ nnoremap <Leader>nh :set hlsearch!<CR>
 nmap <Leader>l :bnext<CR>
 nmap <Leader>n :bnext<CR>
 nmap <Leader>h :bprevious<CR>
+nmap <Leader>p :bprevious<CR>
 nmap <Leader>d :bp <BAR> bd #<CR>
 
 " tmux integration
@@ -286,12 +310,15 @@ tnoremap <ESC> <C-\><C-n>
 
 " ------Make shit easier-----
 nmap <Leader>s<CR> :NERDTreeFind<CR>
+
 " Idiot proofing
 command W w
 command Q q
+
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
 " Easy escape from insert
 imap fd <Esc>
 "imap fK <Esc>
@@ -303,14 +330,17 @@ imap fd <Esc>
 " Allow for homerow up and down in command mode
 cnoremap <c-j> <down>
 cnoremap <c-k> <up>
+
 " Allow for innerline navagation
 nmap j gj
 nmap k gk
+
 " Faster down and up
 nnoremap <c-j> 15gj
 vnoremap <c-j> 15gj
 nnoremap <c-k> 15gk
 vnoremap <c-k> 15gk
+
 " End and beg of line easier
 nnoremap H ^
 nnoremap L $
@@ -325,17 +355,23 @@ nnoremap tt :te zsh<CR>
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
+
 " Add a space
 nnoremap <leader><leader> i <Esc>l
+
 " Fix all indents
 nnoremap <leader>t<CR> mzgg=G`z:w<CR>
+
 " Get rid of the fucking stupid OCD whitespace
-nnoremap <leader>w<CR> :%s/\s\+$//<CR>:w<CR>
+nnoremap <leader>w :StripWhitespace<CR>:w<CR>
+
 " Emacs indent
 nnoremap <Tab> ==
 vnoremap <Tab> =
+
 " Code jumping
 nnoremap <leader>jp /jumptag<CR>
+
 " Remove upper/lowercase in visual mode.
 vnoremap u <Esc>
 vnoremap U <Esc>
@@ -345,11 +381,15 @@ vnoremap U <Esc>
 nnoremap <leader>' V:s/'/"/g<CR>
 
 " fzf
-nnoremap <C-p> :Files<CR>
-nnoremap <C-s> :BLines<CR>
-nnoremap <C-b> :Buffers<CR>
+" nnoremap <C-p> :Files<CR>
+" nnoremap <C-s> :BLines<CR>
+" nnoremap <C-b> :Buffers<CR>
 
 nnoremap <leader>a :QuickScopeToggle<CR>
+
+" horizontal pane resizing
+nnoremap <leader><Right> <c-w>20><CR>
+nnoremap <leader><Left> <c-w>20<<CR>
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
