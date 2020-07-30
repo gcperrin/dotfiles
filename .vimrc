@@ -28,6 +28,8 @@ Plugin 'keith/swift.vim'
 Plugin 'udalov/kotlin-vim'
 Plugin 'elixir-editors/vim-elixir'
 Plugin 'heavenshell/vim-jsdoc'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
