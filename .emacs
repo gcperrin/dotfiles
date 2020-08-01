@@ -13,7 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cmake-mode evil-collection counsel ivy major-mode-icons evil-magit magit docker-compose-mode markdown-mode add-node-modules-path company-tern company-shell tide js2-mode irony-eldoc flycheck-irony company-irony irony flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme-modern evil-leader evil))))
+    (company-lsp lsp-mode cmake-mode evil-collection counsel ivy major-mode-icons evil-magit magit docker-compose-mode markdown-mode add-node-modules-path company-tern company-shell tide js2-mode irony-eldoc flycheck-irony company-irony irony flycheck json-mode ace-window spaceline web-mode company neotree evil-commentary key-chord color-theme-modern evil-leader evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -62,7 +62,6 @@
 (require 'evil-collection)
 ;; (setq evil-want-keybinding nil)
 (setq evil-collection-setup-minibuffer t)
-(with-eval-after-load 'ivy (require 'evil-collection-ivy))
 
 ;;; ACE WINDOW ;;;
 (require 'ace-window)
@@ -177,23 +176,23 @@
 
 ;; I use irony with company to get code completion.
 (require 'company-irony)
-(eval-after-load 'company '(add-to-list 'company-backends 'company-irony))
+;; (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))
 
 ;; ;; I use irony with flycheck to get real-time syntax checking.
 ;; (require 'flycheck-irony)
 ;; (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
-(require 'irony-eldoc)
-(add-hook 'irony-mode-hook #'irony-eldoc)
+;; (require 'irony-eldoc)
+;; (add-hook 'irony-mode-hook #'irony-eldoc)
 
-(require 'company-irony-c-headers)
+;; (require 'company-irony-c-headers)
 ;; Load with `irony-mode` as a grouped backend
-(eval-after-load 'company
-  '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
+;; (eval-after-load 'company
+  ;; '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
   ;; (setq irony-additional-clang-options '("-std=c++11")))
 
-(require 'company-tern)
-(add-to-list 'company-backends 'company-tern)
+;; (require 'company-tern)
+;; (add-to-list 'company-backends 'company-tern)
 ;; (add-to-list 'company-backends 'company-files)
 
 (eval-after-load 'company
@@ -213,13 +212,16 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+
+(require 'lsp-mode)
+(add-to-list 'company-backends 'company-capf)
 
 (add-hook 'web-mode-hook
           (lambda ()
             (web-mode-set-content-type "jsx")
-            (tern-mode)
+            ;; (tern-mode)
             ;; (company-mode)
             (message "now set to: %s" web-mode-content-type)))
 
@@ -259,14 +261,14 @@
         ;; web-mode-enable-current-element-highlight t
         web-mode-enable-heredoc-fontification t
         web-mode-enable-engine-detection t
-        web-mode-markup-indent-offset 4
-        web-mode-attr-indent-offset 4
-        web-mode-css-indent-offset 4
-        web-mode-code-indent-offset 4
-        web-mode-style-padding 4
-        web-mode-script-padding 4
+        web-mode-markup-indent-offset 2
+        web-mode-attr-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-style-padding 2
+        web-mode-script-padding 2
         web-mode-block-padding 0
-        web-mode-comment-style 4)
+        web-mode-comment-style 2)
 )
 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
@@ -335,14 +337,6 @@
         ))
     )
   )
-
-;; (require 'tide)
-;; (defun setup-tide-mode ()
-;;   (interactive)
-;;   (tide-setup)
-;;   (flycheck-add-next-checker 'typescript-tide '(t . typescript-tslint) 'append)
-;;   (eldoc-mode +1)
-;;   (tide-hl-identifier-mode +1))
 
 ;; ;; aligns annotation to the right hand side
 ;; (setq company-tooltip-align-annotations t)
