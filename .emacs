@@ -173,6 +173,14 @@
   (require 'smartparens-config)
   (smartparens-global-mode))
 
+(use-package wgrep
+  :ensure t
+  :after ivy counsel)
+
+(use-package wgrep-ag
+  :ensure t
+  :after wgrep ivy counsel)
+
 ;; Company
 (use-package company
   :ensure t
