@@ -88,6 +88,7 @@
     "b" 'counsel-switch-buffer
     "r" 'counsel-rg
     "t" 'neotree-toggle
+    "i" 'lsp-ui-imenu
     "f" 'swiper
     "e" 'counsel-M-x)
   :config
@@ -181,6 +182,12 @@
   :ensure t
   :after wgrep ivy counsel)
 
+(use-package imenu-list
+  :ensure t
+  :config
+  (setq imenu-list-focus-after-activation t))
+
+
 ;; Company
 (use-package company
   :ensure t
@@ -202,6 +209,13 @@
   :after company
   :hook ((web-mode . lsp))
   )
+
+(use-package lsp-ui
+  :ensure t
+  :config
+  (add-hook 'lsp-ui-imenu-mode
+              (lambda () (interactive) (linum-mode -1))))
+
 
 (use-package web-mode
   :ensure t
