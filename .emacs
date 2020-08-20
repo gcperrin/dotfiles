@@ -188,6 +188,8 @@
 
 (use-package counsel
   :ensure t
+  :config
+  (setq counsel-rg-base-command "rg -i -M 120 --no-heading --line-number --color never %s . --no-ignore-vcs")
   :bind (("M-x" . counsel-M-x)))
   
 (use-package swiper
