@@ -1,12 +1,17 @@
-;; User Info
+;;; Code:
+
+;; User info
 (setq user-full-name "Greg Perrin")
 (setq user-mail-address "gregoryperrin.ucb@gmail.com")
 
 ;; UI setup
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+
 (global-linum-mode)
+(global-hl-line-mode +1)
+(set-face-attribute 'hl-line nil :inherit nil :background "gray6")
 (set-face-foreground 'linum "color-242")
 (setq linum-format "%4d \u2502 ")
 (setq mac-command-modifier 'meta
@@ -25,10 +30,16 @@
 (setq interprogram-cut-function 'paste-to-osx)
 (setq interprogram-paste-function 'copy-from-osx)
 
+(defun rem ()
+  "reload your .emacs file without restarting Emacs"
+  (interactive)
+  (load-file "~/.emacs"))
+
 ;; Misc native issues
 (setq backup-inhibited t) ; disable backup
 (setq auto-save-default nil) ; disable autosave
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold 500000000)
+(setq read-process-output-max (* 8192 8192)) ;; 1mb
 
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
@@ -68,7 +79,7 @@
 			 ("elpy" . "http://jorgenschaefer.github.io/packages/"))))
 (package-initialize)
 
-;; Bootstrap `use-package'
+;; Bootstrap use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -102,18 +113,21 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    "w" 'save-buffer
+    "s" 'save-buffer
     "q" 'kill-buffer
-    "p" 'show-file-name
+    "a" 'show-file-name
     "\\" 'split-window-horizontally 
     "<right>" 'shrink-window-horizontally
     "<left>" 'enlarge-window-horizontally
-    "h" 'ace-window
+    "w" 'ace-window
     "b" 'counsel-switch-buffer
     "r" 'counsel-rg
     "t" 'neotree-toggle
     "i" 'lsp-ui-imenu
     "f" 'swiper
+    "y" 'yas-expand
+    "n" 'next-buffer
+    "p" 'projectile-command-map
     "e" 'counsel-M-x)
   :config
   (global-evil-leader-mode))
@@ -146,7 +160,6 @@
   (enable-theme 'kingsajz))
 
 (use-package spaceline
-  :config
   :ensure t
   :after color-theme-modern
   :init
@@ -167,10 +180,17 @@
   (setq neo-window-width 35)
   (setq-default neo-show-hidden-files t))
 
+(use-package projectile
+  :ensure t
+  :after evil
+  :config
+  (setq projectile-completion-system 'ivy)
+  (projectile-mode +1))
+
 (use-package ace-window
   :ensure t
   :config
-  (setq aw-keys '(?j ?k ?l)
+  (setq aw-keys '(?0 ?1 ?2 ?3 ?4 ?5)
         aw-dispatch-always t))
 
 (use-package ivy
@@ -179,6 +199,7 @@
   :init
   (setq ivy-initial-inputs-alist nil)
   (setq ivy-display-style 'fancy)
+  (setq ivy-dynamic-exhibit-delay-ms 250)
   :bind (
          :map ivy-minibuffer-map
               ("C-j" . 'ivy-next-line)
@@ -230,46 +251,95 @@
               ("C-j" . company-select-next)
               ("C-k" . company-select-previous))
   :config
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0.1)
   :init
   (set (make-local-variable 'company-backends)
-       '((company-files company-keywords company-capf company-dabbrev-code company-etags company-dabbrev)))
-  (global-company-mode)
+       '((company-files company-keywords company-capf company-dabbrev-code company-yasnippet company-etags company-dabbrev)))
+  (global-company-mode))
+  ;; (with-eval-after-load 'company
+    ;; (define-key company-active-map (kbd "TAB") nil)))
+
+(use-package company-go
+  :ensure t
+  :defer t
+  :init
   (with-eval-after-load 'company
-    (define-key company-active-map (kbd "TAB") nil)))
+    (add-to-list 'company-backends 'company-go)))
 
-(use-package lsp-mode
+(use-package go-mode
   :ensure t
-  :after company
-  :hook ((web-mode . lsp))
+  :init
+  (progn
+    (setq gofmt-command "goimports")
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (bind-key [remap find-tag] #'godef-jump))
   :config
-  )
+  (add-hook 'go-mode-hook 'electric-pair-mode))
 
-(use-package lsp-ui
-  :ensure t
-  :config
-  (lsp-ui-doc-mode -1)
-  (setq lsp-ui-doc-enable nil)
-  :config
-  (add-hook 'lsp-ui-imenu-mode
-              (lambda () (interactive) (linum-mode -1))))
 
 (use-package flycheck
   :ensure t
   :init
-  (global-flycheck-mode)
+  ;; (global-flycheck-mode)
   :config
-  ;; disable jshint since we prefer eslint checking
-  ;; (setq-default flycheck-disabled-checkers
-	;; 						  (append flycheck-disabled-checkers
-	;; 										  '(javascript-jshint)))
-  
+ 
   ;; (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (setq-default flycheck-temp-prefix ".flycheck")
+  ;; (setq-default flycheck-temp-prefix ".flycheck")
+  ;; (setq flycheck-idle-change-delay 4)
+  (setq flycheck-check-syntax-automatically '(save mode-enable))
   (setq-default flycheck-disabled-checkers
 							  (append flycheck-disabled-checkers
 											  '(json-jsonlist)))
   (set-face-attribute 'flycheck-error nil :foreground "red"))
+
+(use-package lsp-mode
+  :ensure t
+  :after company web-mode flycheck
+  :hook ((web-mode . lsp))
+  :config
+  ;; (setq lsp-log-io t)
+  ;; (setq lsp-print-performance t)
+  (setq lsp-enable-folding nil)
+  (setq lsp-restart 'auto-restart)
+  (setq lsp-enable-snippet nil)
+  (setq lsp-eldoc-hook nil)
+  (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-diagnostic-package :none)
+  (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-signature-auto-activate nil)
+
+  ;; (setq-default flycheck-disabled-checkers
+	;; 						  (append flycheck-disabled-checkers
+	;; 										  '(json-jsonlist)))
+  ;; (set-face-attribute 'flycheck-error nil :foreground "red")
+
+  ;; don't scan 3rd party javascript libraries
+  ;; (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
+
+  (use-package lsp-ui
+    :ensure t
+    :after lsp-mode
+    :config
+    (lsp-ui-doc-mode -1)
+    (setq lsp-ui-doc-enable nil)
+    (eldoc-mode -1)
+    (setq lsp-ui-sideline-enable nil)
+    (add-hook 'lsp-ui-imenu-mode
+              (lambda () (interactive) (linum-mode -1))))
+
+  )
+
+;; (use-package yasnippet
+;;   :ensure t
+;;   :after company 
+;;   :config
+;;   (use-package yasnippet-snippets
+;;     :ensure t)
+;;   (yas-global-mode t)
+;;   (define-key yas-minor-mode-map (kbd "<tab>") nil)
+;;   (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand))
+
 
 (use-package web-mode
   :ensure t
@@ -295,14 +365,13 @@
         web-mode-comment-style 2)
   (lambda ()
     (web-mode-set-content-type "jsx")
-    ;; (tern-mode)
-    ;; (company-mode)
     (message "now set to: %s" web-mode-content-type))
   :config
   (set-face-attribute 'web-mode-html-tag-face nil :foreground "color-79" :bold t)
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
   (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "color-69" :bold t)
   (set-face-attribute 'web-mode-function-call-face nil :foreground "color-105" :bold t)
+  (add-to-list 'web-mode-indentation-params '("lineup-quotes" . t))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
   ;; (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -314,17 +383,35 @@
           ad-do-it)
       ad-do-it))
   (defadvice web-mode-highlight-part (around tweak-jsx activate)
-    (if (equal web-mode-content-type "ts")
+    (if (equal web-mode-content-type "tsx")
+        (let ((web-mode-enable-part-face nil))
+          ad-do-it)
+      ad-do-it))
+  (defadvice web-mode-highlight-part (around tweak-jsx activate)
+    (if (equal web-mode-content-type "jsx")
+        (let ((web-mode-enable-part-face nil))
+          ad-do-it)
+      ad-do-it))
+  (defadvice web-mode-highlight-part (around tweak-jsx activate)
+    (if (equal web-mode-content-type "tsx")
         (let ((web-mode-enable-part-face nil))
           ad-do-it)
       ad-do-it))
   )
+
+(use-package protobuf-mode
+  :ensure t)
 
 (use-package dockerfile-mode
   :ensure t)
 
 (use-package yaml-mode
   :ensure t)
+
+(use-package json-mode
+  :ensure t
+  :config
+  (setq json-reformat:indent-width 2))
 
 (use-package markdown-mode
   :ensure t

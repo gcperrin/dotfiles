@@ -1,31 +1,18 @@
-export EDITOR=nvim
+export LANG=en_US.UTF-8
+export EDITOR=emacs
+export CLICOLOR=1
+export GOPATH=$HOME/go
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+# Load custom theme
+source ~/.dotfiles/gcp.zsh-theme
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=24"
 
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -44,14 +31,16 @@ export EDITOR=nvim
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+VIM_MODE_VICMD_KEY='^D'
+VIM_MODE_TRACK_KEYMAP=no
+source ~/.oh-my-zsh/custom/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+plugins=(git zsh-syntax-highlighting)
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -72,34 +61,32 @@ function title {
     echo -ne "\033]0;"$*"\007"
 }
 
-# NVM activation
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-# export NVM_DIR=~"$HOME/.nvm"
-# source $(brew --prefix nvm)/nvm.sh
-
-# OS-specific aliases
+# OS-specific action
 os=$(uname)
 if [ "$os" = "Darwin" ];
 then
     alias lsl="ls -l -G"
     alias ls="ls -la -G"
+    # alias em="emacsclient -t -a=\"\""
     alias emacs="Emacs --no-window-system"
+    # alias die="emacsclient -e '(kill-emacs)'"
 else
     alias lsl="ls -l --color=auto"
     alias ls="ls -la --color=auto"
-		alias e="emacs"
+		alias em="emacs"
 fi
+
 
 # Git aliases
 alias gs="git status"
 alias gl="git log"
 alias gls="git log --pretty=oneline"
+alias gld="git log -1 --format=\%ad"
 alias gd="git diff HEAD "
 
 # General aliases
 alias cl="clear"
-alias rzsh="source ~/.zshrc && source ~/.zshenv"
+alias rzsh="source ~/.zshrc"
 
 # Docker aliases
 alias dk="docker"
@@ -114,6 +101,9 @@ alias tmuxn="tmux new-session -s"
 alias t2="tree -L 2"
 alias t3="tree -L 3"
 alias t4="tree -L 4"
+
+# LHR
+alias mono="./monolith"
 
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
@@ -136,3 +126,16 @@ bindkey '^ ' autosuggest-accept
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 ctags=/usr/local/bin/ctags
+
+# Syntax highlighting
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#ff875f,light'
+ZSH_HIGHLIGHT_STYLES[function]='fg=#ff875f,light'
+ZSH_HIGHLIGHT_STYLES[command]='fg=#ff875f,light'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#ff5f5f,light'
+ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff0087,light'
+source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Emscripten path mapping
+alias emload="source \"/Users/gcperrin/.emsdk/emsdk_env.sh\""
