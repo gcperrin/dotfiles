@@ -1,12 +1,19 @@
 export LANG=en_US.UTF-8
+
+# Path things
+export PATH=$HOME/.local/bin:$PATH
+export PATH="$(yarn global bin):$PATH"
+
+# Path to your oh-my-zsh installation.
+export ZSH="/home/gcperrin/.oh-my-zsh"
+
 export EDITOR=emacs
-export CLICOLOR=1
 export GOPATH=$HOME/go
-export GOROOT="$(brew --prefix golang)/libexec"
-export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+# export GOROOT="$(brew --prefix golang)/libexec"
+# export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 # Load custom theme
-source ~/.dotfiles/gcp.zsh-theme
+export ZSH_THEME=gcp
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=24"
 
 # ENABLE_CORRECTION="true"
@@ -33,7 +40,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=24"
 # Add wisely, as too many plugins slow down shell startup.
 VIM_MODE_VICMD_KEY='^D'
 VIM_MODE_TRACK_KEYMAP=no
-source ~/.oh-my-zsh/custom/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+#source ~/.oh-my-zsh/custom/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
 plugins=(git zsh-syntax-highlighting)
 
 # User configuration
@@ -63,17 +70,17 @@ function title {
 
 # OS-specific action
 os=$(uname)
-if [ "$os" = "Darwin" ];
-then
+if [ "$os" = "Darwin" ]; then
     alias lsl="ls -l -G"
     alias ls="ls -la -G"
-    # alias em="emacsclient -t -a=\"\""
     alias emacs="Emacs --no-window-system"
-    # alias die="emacsclient -e '(kill-emacs)'"
 else
-    alias lsl="ls -l --color=auto"
-    alias ls="ls -la --color=auto"
-		alias em="emacs"
+    alias lsl="ls -l"
+    alias l="ls -la"
+    alias ls="ls -la"
+    alias lf="ls -la" # For weird KDE aliases?
+		alias em="emacs --no-window-system"
+    alias emacs="emacs --no-window-system"
 fi
 
 
@@ -139,3 +146,11 @@ source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highli
 
 # Emscripten path mapping
 alias emload="source \"/Users/gcperrin/.emsdk/emsdk_env.sh\""
+
+# Emscripten for linux
+source /home/gcperrin/.local/lib/emsdk/emsdk_env.sh
+
+source $ZSH/oh-my-zsh.sh
+source $ZSH/key-bindings.zsh
+source $ZSH/completion.zsh 
+

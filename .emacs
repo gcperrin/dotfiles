@@ -18,28 +18,40 @@
       mac-option-modifier 'none)
 
 ;;; sys clipboard
-(defun copy-from-osx ()
-  (shell-command-to-string "pbpaste"))
+;; (defun copy-from-osx ()
+;;   (shell-command-to-string "pbpaste"))
 
-(defun paste-to-osx (text &optional push)
-  (let ((process-connection-type nil))
-    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-      (process-send-string proc text)
-      (process-send-eof proc))))
+;; (defun paste-to-osx (text &optional push)
+;;   (let ((process-connection-type nil))
+;;     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+;;       (process-send-string proc text)
+;;       (process-send-eof proc))))
 
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+;; (setq interprogram-cut-function 'paste-to-osx)
+;; (setq interprogram-paste-function 'copy-from-osx)
+
+(exec-path-from-shell-initialize)
 
 (defun rem ()
   "reload your .emacs file without restarting Emacs"
   (interactive)
   (load-file "~/.emacs"))
 
+(defun use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
 ;; Misc native issues
 (setq backup-inhibited t) ; disable backup
 (setq auto-save-default nil) ; disable autosave
-(setq gc-cons-threshold 500000000)
-(setq read-process-output-max (* 8192 8192)) ;; 1mb
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 4096 4096)) ;; 1mb
 
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
@@ -190,7 +202,7 @@
 (use-package ace-window
   :ensure t
   :config
-  (setq aw-keys '(?0 ?1 ?2 ?3 ?4 ?5)
+  (setq aw-keys '(?j ?k ?l)
         aw-dispatch-always t))
 
 (use-package ivy
@@ -279,18 +291,20 @@
 
 (use-package flycheck
   :ensure t
+  :after web-mode
   :init
-  ;; (global-flycheck-mode)
+  (global-flycheck-mode)
+
   :config
- 
-  ;; (flycheck-add-mode 'javascript-eslint 'web-mode)
-  ;; (setq-default flycheck-temp-prefix ".flycheck")
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (setq-default flycheck-temp-prefix ".flycheck")
   ;; (setq flycheck-idle-change-delay 4)
-  (setq flycheck-check-syntax-automatically '(save mode-enable))
+  (setq flycheck-check-syntax-automatically '(idle-change idle-buffer-switch))
   (setq-default flycheck-disabled-checkers
 							  (append flycheck-disabled-checkers
 											  '(json-jsonlist)))
-  (set-face-attribute 'flycheck-error nil :foreground "red"))
+  (set-face-attribute 'flycheck-error nil :foreground "red")
+  :hook ((web-mode . use-eslint-from-node-modules)))
 
 (use-package lsp-mode
   :ensure t
@@ -305,14 +319,13 @@
   (setq lsp-eldoc-hook nil)
   (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-diagnostic-package :none)
-  (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-signature-auto-activate nil)
 
   ;; (setq-default flycheck-disabled-checkers
 	;; 						  (append flycheck-disabled-checkers
 	;; 										  '(json-jsonlist)))
-  ;; (set-face-attribute 'flycheck-error nil :foreground "red")
+  (set-face-attribute 'flycheck-error nil :foreground "red")
 
   ;; don't scan 3rd party javascript libraries
   ;; (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
@@ -327,8 +340,14 @@
     (setq lsp-ui-sideline-enable nil)
     (add-hook 'lsp-ui-imenu-mode
               (lambda () (interactive) (linum-mode -1))))
-
   )
+
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp))))  ; or lsp-deferred
 
 ;; (use-package yasnippet
 ;;   :ensure t
@@ -426,7 +445,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(evil use-package)))
+ '(package-selected-packages '(exec-path-from-shell evil use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
