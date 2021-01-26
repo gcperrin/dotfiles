@@ -1,6 +1,5 @@
 # Dotfile Development Environment
-## Greg Perrin
-## greg.perrin@mfactorengineering.com
+
 
 ### Installation
 Compile emacs from source.
