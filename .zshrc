@@ -41,7 +41,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=24"
 VIM_MODE_VICMD_KEY='^D'
 VIM_MODE_TRACK_KEYMAP=no
 #source ~/.oh-my-zsh/custom/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
-plugins=(git zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting docker docker-compose)
 
 # User configuration
 
@@ -150,7 +150,16 @@ alias emload="source \"/Users/gcperrin/.emsdk/emsdk_env.sh\""
 # Emscripten for linux
 source /home/gcperrin/.local/lib/emsdk/emsdk_env.sh
 
+# ohmyZSH
 source $ZSH/oh-my-zsh.sh
 source $ZSH/key-bindings.zsh
 source $ZSH/completion.zsh 
 
+# Kubernetes
+source <(kubectl completion zsh)
+
+# Solana
+export PATH="/home/gcperrin/.local/share/solana/install/active_release/bin:$PATH"
+
+# Rust
+source $HOME/.cargo/env

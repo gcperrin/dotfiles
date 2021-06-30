@@ -18,6 +18,7 @@
       mac-option-modifier 'none)
 
 ;;; sys clipboard
+(setq x-select-enable-clipboard t)
 ;; (defun copy-from-osx ()
 ;;   (shell-command-to-string "pbpaste"))
 
@@ -30,7 +31,10 @@
 ;; (setq interprogram-cut-function 'paste-to-osx)
 ;; (setq interprogram-paste-function 'copy-from-osx)
 
-(exec-path-from-shell-initialize)
+(setq vc-follow-symlinks nil)
+(setq create-lockfiles nil)
+
+;; (exec-path-from-shell-initialize)
 
 (defun rem ()
   "reload your .emacs file without restarting Emacs"
@@ -134,9 +138,12 @@
     "w" 'ace-window
     "b" 'counsel-switch-buffer
     "r" 'counsel-rg
+    "g" 'counsel-git-grep
     "t" 'neotree-toggle
     "i" 'lsp-ui-imenu
     "f" 'swiper
+    "l" 'linum-mode
+    "q" 'query-replace-regexp
     "y" 'yas-expand
     "n" 'next-buffer
     "p" 'projectile-command-map
@@ -445,7 +452,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(exec-path-from-shell evil use-package)))
+ '(package-selected-packages '(rust-mode exec-path-from-shell evil use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
