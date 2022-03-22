@@ -5,10 +5,24 @@
 (setq user-mail-address "gregoryperrin.ucb@gmail.com")
 
 ;; UI setup
-(scroll-bar-mode -1)
+;; (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+;; always follow symlinks
+(setq vc-follow-symlinks nil)
+
+;; Backup and Autosave Directories
+(setq temporary-file-directory "~/.tmp/")
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+(setq auto-save-default nil)
+(setq make-backup-files nil)
+(setq create-lockfiles nil)
+
+;; linum setup
 (global-linum-mode)
 (global-hl-line-mode +1)
 (set-face-attribute 'hl-line nil :inherit nil :background "gray6")
@@ -17,8 +31,12 @@
 (setq mac-command-modifier 'meta
       mac-option-modifier 'none)
 
+<<<<<<< HEAD
+;; sys clipboard
+=======
 ;;; sys clipboard
 (setq x-select-enable-clipboard t)
+>>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 ;; (defun copy-from-osx ()
 ;;   (shell-command-to-string "pbpaste"))
 
@@ -31,9 +49,12 @@
 ;; (setq interprogram-cut-function 'paste-to-osx)
 ;; (setq interprogram-paste-function 'copy-from-osx)
 
+<<<<<<< HEAD
+=======
 (setq vc-follow-symlinks nil)
 (setq create-lockfiles nil)
 
+>>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 ;; (exec-path-from-shell-initialize)
 
 (defun rem ()
@@ -147,6 +168,8 @@
     "y" 'yas-expand
     "n" 'next-buffer
     "p" 'projectile-command-map
+    "q" 'query-replace-regexp
+    "l" 'linum-mode
     "e" 'counsel-M-x)
   :config
   (global-evil-leader-mode))
@@ -452,13 +475,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+<<<<<<< HEAD
+ '(package-selected-packages
+   '(solidity-mode rust-mode exec-path-from-shell evil use-package)))
+=======
  '(package-selected-packages '(rust-mode exec-path-from-shell evil use-package)))
+>>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "black"))))
+ '(default ((t (:background "312c2c"))))
  '(company-preview ((t (:foreground "darkgray" :underline t))))
  '(company-preview-common ((t (:inherit company-preview))))
  '(company-scrollbar-bg ((t (:background "#121212"))))

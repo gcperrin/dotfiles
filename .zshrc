@@ -5,7 +5,13 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH="$(yarn global bin):$PATH"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/gcperrin/.oh-my-zsh"
+os=$(uname)
+if [ "$os" = "Darwin" ]; then
+    export ZSH="/Users/gcperrin/.oh-my-zsh"
+else
+    export ZSH="/home/gcperrin/.oh-my-zsh"
+fi
+    
 
 export EDITOR=emacs
 export GOPATH=$HOME/go
@@ -69,10 +75,10 @@ function title {
 }
 
 # OS-specific action
-os=$(uname)
 if [ "$os" = "Darwin" ]; then
     alias lsl="ls -l -G"
     alias ls="ls -la -G"
+    alias lf="ls -la -G"
     alias emacs="Emacs --no-window-system"
 else
     alias lsl="ls -l"
@@ -90,6 +96,7 @@ alias gl="git log"
 alias gls="git log --pretty=oneline"
 alias gld="git log -1 --format=\%ad"
 alias gd="git diff HEAD "
+alias gtl="git tag -l -n5"
 
 # General aliases
 alias cl="clear"
@@ -142,19 +149,33 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=#ff875f,light'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=#ff5f5f,light'
 ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff0087,light'
+
 source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Emscripten path mapping
 alias emload="source \"/Users/gcperrin/.emsdk/emsdk_env.sh\""
 
 # Emscripten for linux
-source /home/gcperrin/.local/lib/emsdk/emsdk_env.sh
+# source /home/gcperrin/.local/lib/emsdk/emsdk_env.sh
 
+<<<<<<< HEAD
+# Oh-my-zsh and FZF loading
+=======
 # ohmyZSH
+>>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 source $ZSH/oh-my-zsh.sh
 source $ZSH/key-bindings.zsh
 source $ZSH/completion.zsh 
 
+<<<<<<< HEAD
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/gcperrin/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gcperrin/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/gcperrin/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gcperrin/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Rust shell init
+=======
 # Kubernetes
 source <(kubectl completion zsh)
 
@@ -162,4 +183,5 @@ source <(kubectl completion zsh)
 export PATH="/home/gcperrin/.local/share/solana/install/active_release/bin:$PATH"
 
 # Rust
+>>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 source $HOME/.cargo/env
