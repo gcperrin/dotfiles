@@ -2,7 +2,7 @@ export LANG=en_US.UTF-8
 
 # Path things
 export PATH=$HOME/.local/bin:$PATH
-export PATH="$(yarn global bin):$PATH"
+# export PATH="$(yarn global bin):$PATH"
 
 # Path to your oh-my-zsh installation.
 os=$(uname)
@@ -21,6 +21,7 @@ export GOPATH=$HOME/go
 # Load custom theme
 export ZSH_THEME=gcp
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=24"
+source $ZSH/oh-my-zsh.sh
 
 # ENABLE_CORRECTION="true"
 
@@ -133,12 +134,15 @@ function spectrum_ls() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ZSH autosuggest
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 
 # Docker autocomplete
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
+### Fix for making Docker plugin work
+autoload -U compinit && compinit
+###
 ctags=/usr/local/bin/ctags
 
 # Syntax highlighting
@@ -150,7 +154,7 @@ ZSH_HIGHLIGHT_STYLES[alias]='fg=#ff5f5f,light'
 ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff0087,light'
 
-source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Emscripten path mapping
 alias emload="source \"/Users/gcperrin/.emsdk/emsdk_env.sh\""
@@ -158,30 +162,30 @@ alias emload="source \"/Users/gcperrin/.emsdk/emsdk_env.sh\""
 # Emscripten for linux
 # source /home/gcperrin/.local/lib/emsdk/emsdk_env.sh
 
-<<<<<<< HEAD
 # Oh-my-zsh and FZF loading
-=======
-# ohmyZSH
->>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
-source $ZSH/oh-my-zsh.sh
-source $ZSH/key-bindings.zsh
-source $ZSH/completion.zsh 
+#source $ZSH/oh-my-zsh.sh
+#source $ZSH/key-bindings.zsh
+#source $ZSH/completion.zsh 
 
-<<<<<<< HEAD
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/gcperrin/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gcperrin/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+#if [ -f '/Users/gcperrin/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gcperrin/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/gcperrin/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gcperrin/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# if [ -f '/Users/gcperrin/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gcperrin/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Rust shell init
-=======
 # Kubernetes
 source <(kubectl completion zsh)
+echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.zshrc # add autocomplete permanently to your zsh shell
 
 # Solana
 export PATH="/home/gcperrin/.local/share/solana/install/active_release/bin:$PATH"
 
 # Rust
->>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 source $HOME/.cargo/env
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)

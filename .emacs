@@ -31,12 +31,8 @@
 (setq mac-command-modifier 'meta
       mac-option-modifier 'none)
 
-<<<<<<< HEAD
-;; sys clipboard
-=======
 ;;; sys clipboard
 (setq x-select-enable-clipboard t)
->>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 ;; (defun copy-from-osx ()
 ;;   (shell-command-to-string "pbpaste"))
 
@@ -49,12 +45,9 @@
 ;; (setq interprogram-cut-function 'paste-to-osx)
 ;; (setq interprogram-paste-function 'copy-from-osx)
 
-<<<<<<< HEAD
-=======
 (setq vc-follow-symlinks nil)
 (setq create-lockfiles nil)
 
->>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
 ;; (exec-path-from-shell-initialize)
 
 (defun rem ()
@@ -475,12 +468,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-<<<<<<< HEAD
- '(package-selected-packages
-   '(solidity-mode rust-mode exec-path-from-shell evil use-package)))
-=======
- '(package-selected-packages '(rust-mode exec-path-from-shell evil use-package)))
->>>>>>> d8f6bc3fc0c10d980bcb037328a668cf28526de2
+ ;; '(package-selected-packages
+ ;;   '(solidity-mode rust-mode exec-path-from-shell evil use-package)))
+ ;; '(package-selected-packages '(rust-mode exec-path-from-shell evil use-package)))
+) 
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
