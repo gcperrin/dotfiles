@@ -48,6 +48,7 @@ source $ZSH/oh-my-zsh.sh
 VIM_MODE_VICMD_KEY='^D'
 VIM_MODE_TRACK_KEYMAP=no
 #source ~/.oh-my-zsh/custom/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+
 plugins=(git zsh-syntax-highlighting docker docker-compose)
 
 # User configuration
@@ -141,7 +142,7 @@ bindkey '^ ' autosuggest-accept
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 ### Fix for making Docker plugin work
-autoload -U compinit && compinit
+# autoload -U compinit && compinit
 ###
 ctags=/usr/local/bin/ctags
 
@@ -187,5 +188,47 @@ source $HOME/.cargo/env
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
 [[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
 [[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)

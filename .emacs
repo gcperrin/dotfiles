@@ -468,10 +468,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;; '(package-selected-packages
- ;;   '(solidity-mode rust-mode exec-path-from-shell evil use-package)))
- ;; '(package-selected-packages '(rust-mode exec-path-from-shell evil use-package)))
-) 
+ '(package-selected-packages
+   '(docker cmake-mode rust-mode yaml-mode wgrep-ag web-mode use-package spaceline smartparens protobuf-mode projectile neotree lsp-ui lsp-python-ms key-chord json-mode imenu-list flycheck evil-leader evil-commentary evil-collection dumb-jump dockerfile-mode counsel company-go color-theme-modern ace-window)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -481,11 +479,11 @@
  '(default ((t (:background "312c2c"))))
  '(company-preview ((t (:foreground "darkgray" :underline t))))
  '(company-preview-common ((t (:inherit company-preview))))
- '(company-scrollbar-bg ((t (:background "#121212"))))
- '(company-scrollbar-fg ((t (:background "#121212"))))
  '(company-tooltip ((t (:background "lightgray" :foreground "black"))))
  '(company-tooltip-common ((((type x)) (:inherit company-tooltip :weight bold)) (t (:inherit company-tooltip))))
  '(company-tooltip-common-selection ((((type x)) (:inherit company-tooltip-selection :weight bold)) (t (:inherit company-tooltip-selection))))
+ '(company-tooltip-scrollbar-thumb ((t (:background "#121212"))))
+ '(company-tooltip-scrollbar-track ((t (:background "#121212"))))
  '(company-tooltip-selection ((t (:background "steelblue" :foreground "white"))))
  '(neo-dir-link-face ((t (:foreground "brightcyan" :bold t))))
  '(neo-expand-btn-face ((t (:foreground "brightwhite" :bold t))))
