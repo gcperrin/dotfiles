@@ -85,9 +85,8 @@ if [ "$os" = "Darwin" ]; then
 else
     alias lsl="ls -l"
     alias l="ls -la"
-    alias ls="ls -la"
+    alias ls="ls -la --color=auto"
     alias lf="ls -la" # For weird KDE aliases?
-		alias em="emacs --no-window-system"
     alias emacs="emacs --no-window-system"
 fi
 
