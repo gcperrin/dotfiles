@@ -11,7 +11,6 @@ if [ "$os" = "Darwin" ]; then
 else
     export ZSH="/home/gcperrin/.oh-my-zsh"
 fi
-    
 
 export EDITOR=emacs
 export GOPATH=$HOME/go
@@ -49,7 +48,7 @@ VIM_MODE_VICMD_KEY='^D'
 VIM_MODE_TRACK_KEYMAP=no
 #source ~/.oh-my-zsh/custom/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
 
-plugins=(git zsh-syntax-highlighting docker docker-compose)
+plugins=(git docker docker-compose)
 
 # User configuration
 
