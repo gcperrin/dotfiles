@@ -1,4 +1,4 @@
-;;; Code:
+;; Code:
 
 ;; User info
 (setq user-full-name "Greg Perrin")
@@ -23,10 +23,11 @@
 (setq create-lockfiles nil)
 
 ;; linum setup
-(global-linum-mode)
+;; (global-linum-mode)
+(global-display-line-numbers-mode)
 (global-hl-line-mode +1)
 (set-face-attribute 'hl-line nil :inherit nil :background "gray6")
-(set-face-foreground 'linum "color-242")
+;; (set-face-foreground 'linum "color-242")
 (setq linum-format "%4d \u2502 ")
 (setq mac-command-modifier 'meta
       mac-option-modifier 'none)
