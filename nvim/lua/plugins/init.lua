@@ -358,6 +358,11 @@ return {
       require("luasnip").setup(opts)
     end,
   },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+  },
   -- LANGUAGE SUPPROT
   {
     require("config.python")

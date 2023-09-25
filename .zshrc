@@ -119,6 +119,8 @@ alias t4="tree -L 4"
 # LHR
 alias mono="./monolith"
 
+alias ctags="`brew --prefix`/bin/ctags"
+
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
 

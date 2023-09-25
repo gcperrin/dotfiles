@@ -163,8 +163,7 @@ map.group({ noremap = true }, {
   { 'n', { '<leader>p', '<Cmd>BufferPrevious<CR>' } },
   { 'n', { '<leader>c', '<Cmd>BufferClose<CR>' } },
   { 'n', { '<leader>\\', '<C-w v>' } },
-  { 'n', { 'gd', '<Cmd>lua vim.lsp.buf.declaration()<CR>' } },
-
+  -- { 'n', { 'gd', '<Cmd>lua vim.lsp.buf.declaration()<CR>' } },
   
 })
 
