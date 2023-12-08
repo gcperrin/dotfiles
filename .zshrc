@@ -184,6 +184,9 @@ export PATH="/home/gcperrin/.local/share/solana/install/active_release/bin:$PATH
 # Rust
 source $HOME/.cargo/env
 
+# Avalanche
+export PATH=~/bin:$PATH
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
