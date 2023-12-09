@@ -38,7 +38,7 @@ end
 function M.setup(_, opts)
   lsp_utils.on_attach(function(client, bufnr)
     -- require("lsp.format").on_attach(client, bufnr)
-    -- require("lsp.keymaps").on_attach(client, bufnr)
+    require("lsp.keymaps").on_attach(client, bufnr)
   end)
 
   lsp_init() -- diagnostics, handlers

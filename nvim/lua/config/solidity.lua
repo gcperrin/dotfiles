@@ -1,9 +1,11 @@
+local lsp_utils = require "lsp.utils"
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, { "solidity" })
-    end,
+    end
   },
   {
     "williamboman/mason.nvim",
@@ -12,30 +14,41 @@ return {
         opts.ensure_installed,
         { "nomicfoundation-solidity-language-server" }
       )
+      vim.list_extend(
+        opts.ensure_installed,
+        { "solidity-ls" }
+      )
     end,
   },
   {
     "neovim/nvim-lspconfig",
-    solidity_ls_nomicfoundation = function(_, opts)
-      require("lsp.utils").on_attach(function(client, bufnr)
-        if client.name == "solidity_ls_nomicfoundation" then
-          vim.o.tabstop = 1
-          vim.o.shiftwidth = 2
-        end
-      end)
-      return true
-    end,
     opts = {
       servers = {
         solidity_ls_nomicfoundation = {
           setup = {
-            cmd = { 'nomicfoundation-solidity-language-server', '--stdio' },
+            cmd = { 'nomicfoundationssss-language-server', '--stdio' },
             filetypes = { 'solidity' },
-            root_dir = require("lsp.utils").find_git_ancestor,
+            root_dir = lsp_utils.find_git_ancestor,
             single_file_support = true,
           },
         },
       },
     },
+    solidity_ls_nomicfoundation = function(_, opts)
+      require("lsp.utils").on_attach(function(client, bufnr)
+        local map = function(mode, lhs, rhs, desc)
+          if desc then
+            desc = desc
+          end
+          vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc, buffer = bufnr, noremap = true })
+        end
+        vim.o.tabstop = 2
+        vim.o.shiftwidth = 1
+        map("n", "gD", "<leader>g vim.lsp.buf.declaration()<cr>", { noremap = true, silent = false })
+        map("n", "gd", "<leader>g vim.lsp.buf.definition()<cr>", { noremap = true, silent = false })
+        -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+        vim.api.nvim_buf_set_option('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap=true, silent=true })
+      end)
+    end
   },
 }
