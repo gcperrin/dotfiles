@@ -28,7 +28,7 @@ return {
     -- stylua: ignore
     keys = {
       -- { "<leader><space>", require("utils").find_files, desc = "Find Files" },
-      -- { "<leader>ff", require("lsp.utils").telescope("files"), desc = "Find Files (Root Dir)" },
+      { "<leader>ff", require("utils").telescope("files"), desc = "Find Files (Root Dir)" },
       -- { "<leader>fF", require("utils").telescope("files", { cwd = false }), desc = "Find Files (Cwd)" },
       -- { "<leader>gf", require("plugins.telescope.pickers").git_diff_picker, desc = "Diff Files" },
       -- { "<leader>fo", "<cmd>Telescope frecency theme=dropdown previewer=false<cr>", desc = "Recent" },
@@ -49,7 +49,7 @@ return {
       -- { "<leader>sb", function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer", },
       -- { "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
       -- { "<leader>zc", function() require("telescope.builtin").colorscheme({enable_preview = true}) end, desc = "Colorscheme", },
-      -- { "<leader>su", function() require("telescope.builtin").live_grep({ search_dirs = {vim.fs.dirname(vim.fn.expand("%")) }}) end , desc = "Grep (Current File Path)" },
+      { "<leader>rg", function() require("telescope.builtin").live_grep({ search_dirs = {vim.fs.dirname(vim.fn.expand("%")) }}) end , desc = "Grep (Current File Path)" },
     },
     config = function(_, _)
       local telescope = require "telescope"

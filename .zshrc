@@ -97,6 +97,7 @@ alias gls="git log --pretty=oneline"
 alias gld="git log -1 --format=\%ad"
 alias gd="git diff HEAD "
 alias gtl="git tag -l -n5"
+alias gc="git clone"
 
 # General aliases
 alias cl="clear"
