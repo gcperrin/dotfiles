@@ -139,6 +139,10 @@ function spectrum_ls() {
 source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 
+# OpenAI ZSH Codex plugin
+source $HOME/.oh-my-zsh/custom/plugins/zsh_codex/zsh_codex.plugin.zsh
+bindkey '^X' create_completion
+
 # Docker autocomplete
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
