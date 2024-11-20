@@ -189,6 +189,9 @@ export PATH="/home/gcperrin/.local/share/solana/install/active_release/bin:$PATH
 # Rust
 source $HOME/.cargo/env
 
+# Go
+export PATH="$HOME/go/bin:$PATH"
+
 # Avalanche
 export PATH=~/bin:$PATH
 
@@ -197,6 +200,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
 export PATH="$HOME/.nvm/versions/node/v20.10.0/lib/node_modules/solidity-ls/bin:$PATH"
-

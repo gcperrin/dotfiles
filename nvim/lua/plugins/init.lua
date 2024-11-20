@@ -340,7 +340,7 @@ return {
         end,
       },
       {
-        "aadparwaiz1/cmp_luasnip"
+        "saadparwaiz1/cmp_luasnip"
       },
     },
     build = "make install_jsregexp",
