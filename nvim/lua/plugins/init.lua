@@ -386,6 +386,9 @@ return {
     require("config.solidity")
   },
   {
+    require("config.proto")
+  },
+  {
     'romgrk/barbar.nvim',
     dependencies = {
       'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
