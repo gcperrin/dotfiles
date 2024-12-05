@@ -9,3 +9,5 @@
 - ChatGPT plugin
 - Copilot with hotkey
 - Other AI tools?
+
+- Check Proto config
