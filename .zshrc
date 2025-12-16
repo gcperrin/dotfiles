@@ -122,6 +122,8 @@ alias mono="./monolith"
 
 alias ctags="`brew --prefix`/bin/ctags"
 
+alias python="python3"
+
 # Color stuff
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
 
@@ -198,3 +200,15 @@ export PATH=~/bin:$PATH
 # Nvm
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# Claude Code
+export CLAUDE_CODE_OAUTH_TOKEN=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
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT:$PATH"
+export PIPENV_PYTHON="$PYENV_ROOT/python"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+pyenv global 3.9.18
+

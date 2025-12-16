@@ -38,6 +38,10 @@ return {
         },
       },
       setup = {
+        ruff = function()
+          -- Ruff is configured, no additional setup needed
+          return false
+        end,
         pyright = function(_, _)
           local lsp_utils = require "lsp.utils"
           lsp_utils.on_attach(function(client, bufnr)

@@ -74,7 +74,12 @@ return {
               map("n", "<leader>dT", "<cmd>lua require('dap-go').debug_test()<cr>", "Go Debug Test")
               vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
               vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-              vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = bufnr,
+                callback = function()
+                  vim.lsp.buf.format()
+                end,
+              })
             end
           end)
         end,

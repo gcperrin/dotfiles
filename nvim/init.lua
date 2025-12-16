@@ -24,18 +24,12 @@ vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 -- cleaner completions
 vim.opt.shortmess:append('c')
 
--- Line number in gutter`
+-- Line number in gutter
 vim.opt.number = true
-
--- Ignore case in search
-vim.opt.ignorecase = true
+-- vim.opt.relativenumber = true
 
 -- add sign column always
 -- vim.opt.signcolumn = 'yes'
-
--- numbas
-vim.opt.number = true
--- vim.opt.relativenumber = true
 
 -- allow more complicated font/color stuff
 -- vim.opt.termguicolors = true
@@ -61,7 +55,7 @@ vim.opt.softtabstop = 2
 
 -- ensure lazy is installed
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git',
     'clone',
@@ -73,22 +67,17 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup('plugins', {
-  change_detection = {
-    notify = false,
-  },
-})
-
 require("lazy").setup {
   spec = {
     { import = "plugins" },
-    { import = "lsp" },
-    { import = "config" },
   },
   defaults = { lazy = true, version = nil },
   install = { missing = true, colorscheme = { "tokyonight", "catppuccin" } },
   dev = { patterns = jit.os:find "Windows" and {} or { "alpha2phi" } },
   checker = { enabled = true },
+  change_detection = {
+    notify = false,
+  },
   performance = {
     cache = {
       enabled = true,
@@ -132,7 +121,7 @@ map.group({ noremap = true }, {
   },
   {
     'n',
-    -- Allow for innerline navagation
+    -- Allow for innerline navigation
     { 'j', 'gj' },
     { 'k', 'gk' },
     -- End and beg of line easier

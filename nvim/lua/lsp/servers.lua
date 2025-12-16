@@ -60,14 +60,49 @@ function M.setup(_, opts)
         return
       end
     end
-    require("lspconfig")[server].setup(server_opts)
+    
+    local ok, lspconfig = pcall(require, "lspconfig")
+    if not ok then
+      vim.notify("lspconfig not available", vim.log.levels.ERROR)
+      return
+    end
+    
+    if not lspconfig[server] then
+      vim.notify("LSP server '" .. server .. "' not found in lspconfig", vim.log.levels.WARN)
+      return
+    end
+    
+    local server_config = lspconfig[server]
+    if type(server_config) ~= "table" then
+      vim.notify("LSP server '" .. server .. "' is not a table: " .. type(server_config), vim.log.levels.ERROR)
+      return
+    end
+    
+    if type(server_config.setup) ~= "function" then
+      vim.notify("LSP server '" .. server .. "'.setup is not a function: " .. type(server_config.setup), vim.log.levels.ERROR)
+      return
+    end
+    
+    server_config.setup(server_opts)
   end
 
-  -- get all the servers that are available thourgh mason-lspconfig
+  -- get all the servers that are available through mason-lspconfig
   local have_mason, mlsp = pcall(require, "mason-lspconfig")
   local all_mslp_servers = {}
   if have_mason then
-    all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+    -- Try to get the list of available servers
+    local has_get_available, available = pcall(function()
+      return mlsp.get_available_servers()
+    end)
+    if has_get_available then
+      all_mslp_servers = available
+    else
+      -- Fallback: try the old mappings method
+      local has_mappings, mappings = pcall(require, "mason-lspconfig.mappings.server")
+      if has_mappings then
+        all_mslp_servers = vim.tbl_keys(mappings.lspconfig_to_package)
+      end
+    end
   end
 
   local ensure_installed = {} ---@type string[]
@@ -83,9 +118,13 @@ function M.setup(_, opts)
     end
   end
 
-  if have_mason then
-    mlsp.setup { ensure_installed = ensure_installed }
-    mlsp.setup_handlers { setup }
+  if have_mason and mlsp then
+    if type(mlsp.setup) == "function" then
+      mlsp.setup { ensure_installed = ensure_installed }
+      if type(mlsp.setup_handlers) == "function" then
+        mlsp.setup_handlers { setup }
+      end
+    end
   end
 end
 

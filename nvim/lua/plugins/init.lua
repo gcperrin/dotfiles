@@ -1,7 +1,7 @@
 return {
   {
     'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v2.x',
+    branch = 'v3.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
@@ -94,7 +94,6 @@ return {
       },
       highlight = { enable = true, additional_vim_regex_highlighting = { "org", "markdown" } },
       indent = { enable = true },
-      -- context_commentstring = { enable = true, enable_autocmd = false },
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -148,23 +147,6 @@ return {
     },
   },
   {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      { "j-hui/fidget.nvim", config = true },
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      -- "jay-babu/mason-null-ls.nvim",
-    },
-    opts = {
-      servers = {},
-      setup = {},
-    },
-    config = function(plugin, opts)
-      require("lsp.servers").setup(plugin, opts)
-    end,
-  },
-  {
     "williamboman/mason.nvim",
     build = ":MasonUpdate",
     cmd = "Mason",
@@ -192,9 +174,42 @@ return {
     end,
   },
   {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {},
+  },
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      { "j-hui/fidget.nvim", config = true },
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      -- "jay-babu/mason-null-ls.nvim",
+    },
+    opts = {
+      servers = {},
+      setup = {},
+    },
+    config = function(plugin, opts)
+      require("lsp.servers").setup(plugin, opts)
+    end,
+  },
+  {
     "kylechui/nvim-surround",
     event = "VeryLazy",
     opts = {},
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+    config = function(_, opts)
+      vim.g.skip_ts_context_commentstring_module = true
+      require("ts_context_commentstring").setup(opts)
+    end,
   },
   {
     "numToStr/Comment.nvim",
@@ -220,6 +235,7 @@ return {
     event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -387,6 +403,9 @@ return {
   },
   {
     require("config.proto")
+  },
+  {
+    require("config.ai")
   },
   {
     'romgrk/barbar.nvim',
