@@ -212,3 +212,19 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 pyenv global 3.9.18
 
+export BOOST_ROOT=/opt/boost-1-69-arm64/
+export BOOST_ROOT_LIB=/opt/boost-1-69-arm64/lib
+export BOOST_ROOT_INCLUDE=/opt/boost-1-69-arm64/include/boost
+export BOOST_STATIC_LIB_PREFIX=
+export BOOST_ROOT=/opt/boost-1-69-arm64/
+export BOOST_ROOT_LIB=/opt/boost-1-69-arm64/lib
+export BOOST_ROOT_INCLUDE=/opt/boost-1-69-arm64/include/boost
+export BOOST_STATIC_LIB_PREFIX=
+export BOOST_ROOT=/opt/boost-1-69-arm64/
+export BOOST_ROOT_LIB=/opt/boost-1-69-arm64/lib
+export BOOST_ROOT_INCLUDE=/opt/boost-1-69-arm64/include/boost
+export BOOST_STATIC_LIB_PREFIX=
+export BOOST_ROOT=/opt/boost-1-69-arm64/
+export BOOST_ROOT_LIB=/opt/boost-1-69-arm64/lib
+export BOOST_ROOT_INCLUDE=/opt/boost-1-69-arm64/include/boost
+export BOOST_STATIC_LIB_PREFIX=

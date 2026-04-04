@@ -146,11 +146,9 @@ map.group({ noremap = true }, {
 
   -- Bracket jumping (<%>)
   -- TODO
-  
-  -- Buffer nav
-  { 'n', { '<leader>n', '<Cmd>BufferNext<CR>' } },
-  { 'n', { '<leader>p', '<Cmd>BufferPrevious<CR>' } },
-  { 'n', { '<leader>c', '<Cmd>BufferClose<CR>' } },
+
+  -- Buffer nav (moved to barbar plugin spec in plugins/init.lua)
+
   { 'n', { '<leader>\\', '<C-w v>' } },
   -- { 'n', { 'gd', '<Cmd>lua vim.lsp.buf.declaration()<CR>' } },
   
