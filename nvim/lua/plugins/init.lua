@@ -70,8 +70,12 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    -- Pin to the locked legacy-API branch. The default branch (`main`) is a
+    -- ground-up rewrite that drops `opts.ensure_installed`/`highlight`/`indent`,
+    -- so leaving this unpinned silently breaks highlighting for every language.
+    branch = "master",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
     build = ":TSUpdate",
@@ -84,15 +88,13 @@ return {
         "html",
         "markdown",
         "markdown_inline",
-        "org",
         "query",
         "regex",
-        "latex",
         "vim",
         "vimdoc",
         "yaml",
       },
-      highlight = { enable = true, additional_vim_regex_highlighting = { "org", "markdown" } },
+      highlight = { enable = true, additional_vim_regex_highlighting = { "markdown" } },
       indent = { enable = true },
       incremental_selection = {
         enable = true,
@@ -134,7 +136,7 @@ return {
           return true
         end, opts.ensure_installed)
       end
-      require("nvim-treesitter.config").setup(opts)
+      require("nvim-treesitter.configs").setup(opts)
     end,
   },
   {
