@@ -37,8 +37,8 @@ return {
               vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc, buffer = bufnr, noremap = true })
             end
             if client.name == "solidity_ls_nomicfoundation" then
-              vim.api.nvim_buf_set_option(bufnr, 'tabstop', 2)
-              vim.api.nvim_buf_set_option(bufnr, 'shiftwidth', 2)
+              vim.bo[bufnr].tabstop = 2
+              vim.bo[bufnr].shiftwidth = 2
               map("n", "gD", vim.lsp.buf.declaration, "Go to Declaration")
               map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
             end
