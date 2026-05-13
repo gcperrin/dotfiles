@@ -39,8 +39,6 @@ return {
             if client.name == "solidity_ls_nomicfoundation" then
               vim.bo[bufnr].tabstop = 2
               vim.bo[bufnr].shiftwidth = 2
-              map("n", "gD", vim.lsp.buf.declaration, "Go to Declaration")
-              map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
             end
           end)
         end,
